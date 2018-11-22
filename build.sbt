@@ -18,3 +18,5 @@ jsEnv := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv()
 // uTest settings
 libraryDependencies += "com.lihaoyi" %%% "utest" % "0.6.3" % "test"
 testFrameworks += new TestFramework("utest.runner.Framework")
+
+libraryDependencies += "com.lihaoyi" % "fastparse_sjs0.6_2.12" % "1.0.0"

@@ -9,5 +9,12 @@
     <script type="text/javascript" src="./target/scala-2.12/scala-js-tutorial-jsdeps.js"></script>
     <!-- Include Scala.js compiled code -->
     <script type="text/javascript" src="./target/scala-2.12/scala-js-tutorial-fastopt.js"></script>
+
+  <!--
+  In js console:
+
+  IDLP.parse("domain idltest.enums\r\n\r\nenum ShortSyntaxEnum = Element1 | Element2\r\n\r\n\r\ndata SomeGenerics {\r\n  test: map[TestEnum, TestEnum]\r\n}\r\n");
+  IDLP.parseModel("domain idltest.enums\r\n\r\nenum ShortSyntaxEnum = Element1 | Element2\r\n\r\n\r\ndata SomeGenerics {\r\n  test: map[TestEnum, TestEnum]\r\n}\r\n");
+  -->
   </body>
 </html>
