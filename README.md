@@ -11,8 +11,13 @@ npm install jsdom
 Then:
 
 ```
-sbt clean fastOptJS
-open example-fastopt.html
+sbt clean fastOptJS && open example-fastopt.html
+```
+
+For full optimization:
+
+```
+sbt clean fullOptJS && open example-opt.html
 ```
 
 Important: this example is based on scalajs 0.6/sbt 0.13, it requires java 8 to build.
