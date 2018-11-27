@@ -22,4 +22,4 @@ jsDependencies +=
 jsEnv := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv()
 
 resolvers += Opts.resolver.sonatypeSnapshots
-resolvers += Opts.resolver.sonatypeStaging
+resolvers += Opts.resolver.sonatypeReleases
