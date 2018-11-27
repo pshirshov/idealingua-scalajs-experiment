@@ -1,3 +1,16 @@
-# The Scala.js tutorial
+# ScalaJS playground for Idealingua Core 
 
-This repository contains the code accompanying the [Scala.js tutorial](http://www.scala-js.org/doc/tutorial.html)
+Before you start:
+
+```
+npm install jsdom
+# optionally, install izumi-r2 artifacts locally: 
+# sbt clean publishLocal  
+```
+
+Then:
+
+```
+sbt clean fastOptJS
+open example-fastopt.html
+```
