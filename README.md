@@ -14,3 +14,5 @@ Then:
 sbt clean fastOptJS
 open example-fastopt.html
 ```
+
+Important: this example is based on scalajs 0.6/sbt 0.13, it requires java 8 to build.
