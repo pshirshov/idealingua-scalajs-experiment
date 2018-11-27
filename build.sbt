@@ -1,7 +1,13 @@
 enablePlugins(ScalaJSPlugin)
 
-name := "Scala.js Tutorial"
-scalaVersion := "2.12.6"
+name := "idealingua-scalajs-example"
+scalaVersion := "2.12.7"
+
+// uTest settings
+libraryDependencies += "com.lihaoyi" %%% "utest" % "0.6.3" % "test"
+testFrameworks += new TestFramework("utest.runner.Framework")
+
+libraryDependencies += "com.github.pshirshov.izumi.r2" %%% "idealingua-core" % "0.7.0-SNAPSHOT"
 
 // This is an application with a main method
 scalaJSUseMainModuleInitializer := true
@@ -15,8 +21,5 @@ jsDependencies +=
 
 jsEnv := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv()
 
-// uTest settings
-libraryDependencies += "com.lihaoyi" %%% "utest" % "0.6.3" % "test"
-testFrameworks += new TestFramework("utest.runner.Framework")
-
-libraryDependencies += "com.lihaoyi" % "fastparse_sjs0.6_2.12" % "1.0.0"
+resolvers += Opts.resolver.sonatypeSnapshots
+resolvers += Opts.resolver.sonatypeReleases

@@ -1,13 +1,15 @@
 package tutorial.webapp
 
+import java.util.UUID
+
 import com.github.pshirshov.izumi.idealingua.il.parser.IDLParser
 import com.github.pshirshov.izumi.idealingua.il.parser.model.ParsedDomain
 import com.github.pshirshov.izumi.idealingua.model.il.ast.raw.IL
 import fastparse.core.Parsed
 import org.querki.jquery._
 
-import scala.scalajs.js.annotation._
 import scala.scalajs.js
+import scala.scalajs.js.annotation._
 
 @JSExportTopLevel("IDLP")
 object HelloWorld {
@@ -67,16 +69,24 @@ object TutorialApp {
     $("""<div id="controls-outer"/>""")
       .appendTo($("body"))
 
-    $("""<textarea id="input" rows="25" cols="100" />""")
+    $("""<textarea id="input" rows="15" cols="100" />""")
       .text(example)
       .appendTo($("#input-outer"))
 
-    $("""<textarea id="output" rows="25" cols="100" />""")
+    $("""<textarea id="output" rows="15" cols="100" />""")
       .appendTo($("#output-outer"))
 
     $("""<button type="button">Parse</button>""")
       .click(() => addClickedMessage())
       .appendTo($("#controls-outer"))
+
+    $("""<button type="button">UUID</button>""")
+      .click(() => uuid())
+      .appendTo($("#controls-outer"))
+  }
+
+  def uuid(): Unit = {
+    $("#output").text(UUID.randomUUID().toString)
   }
 
   def addClickedMessage(): Unit = {
