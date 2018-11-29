@@ -105,7 +105,7 @@ object Codecs {
   )
 
   implicit def rw54: RW[Typespace] = readwriter[ujson.Value].bimap[Typespace](
-    x => write(x.asInstanceOf[TypespaceImpl]),
+    x => writeJs(x.asInstanceOf[TypespaceImpl]),
     json => read[TypespaceImpl](json)
   )
   implicit def rw55: RW[TypespaceImpl] = macroRW
