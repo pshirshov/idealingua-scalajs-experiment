@@ -18,8 +18,8 @@ import scala.scalajs.js.annotation._
 @JSExportTopLevel("IDLP")
 object HelloWorld {
   @JSExport
-  def fs(fs: Map[String, String]): LoadedModels = {
-    new PseudoContext(fs).loader.load()
+  def fs(fs: js.Dictionary[String]): LoadedModels = {
+    new PseudoContext(fs.toMap).loader.load()
   }
 
   @JSExport
@@ -51,7 +51,7 @@ class PseudoContext(fs: Map[String, String]) extends ModelLoaderContextImpl {
 @JSGlobal("IDLP")
 @js.native
 object IDLPExample extends js.Object {
-  def fs(fs: Map[String, String]): LoadedModels = js.native
+  def fs(fs: js.Dictionary[String]): LoadedModels = js.native
 
   def parse(domain: String): String = js.native
 }
@@ -112,7 +112,7 @@ object TutorialApp {
 
   def parseFsJson(): Unit = {
     val input = $("#input").text()
-    val fs = JSON.parse(input).asInstanceOf[js.Dictionary[String]].toMap
+    val fs = JSON.parse(input).asInstanceOf[js.Dictionary[String]]
     $("#output").text(IDLPExample.fs(fs).toString)
   }
 }
