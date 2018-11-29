@@ -4,9 +4,13 @@ import java.util.UUID
 
 import com.github.pshirshov.izumi.idealingua.il.loader.{FilesystemEnumerator, ModelLoaderContextImpl}
 import com.github.pshirshov.izumi.idealingua.il.parser.IDLParser
+import com.github.pshirshov.izumi.idealingua.model.common.TypeId._
+import com.github.pshirshov.izumi.idealingua.model.common._
 import com.github.pshirshov.izumi.idealingua.model.il.ast.raw.IL
-import com.github.pshirshov.izumi.idealingua.model.loader.LoadedModels
+import com.github.pshirshov.izumi.idealingua.model.il.ast.typed._
+import com.github.pshirshov.izumi.idealingua.model.loader.{FSPath, LoadedDomain, LoadedModels}
 import com.github.pshirshov.izumi.idealingua.model.parser.ParsedDomain
+import com.github.pshirshov.izumi.idealingua.model.typespace.{Issue, MissingDependency, Typespace, TypespaceImpl}
 import fastparse.core.Parsed
 import org.querki.jquery._
 
@@ -14,6 +18,8 @@ import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.JSON
 import scala.scalajs.js.annotation._
+import upickle.default._
+import upickle.default.{macroRW, ReadWriter => RW}
 
 @JSExportTopLevel("IDLP")
 object HelloWorld {
@@ -56,7 +62,11 @@ object IDLPExample extends js.Object {
   def parse(domain: String): String = js.native
 }
 
+
+
 object TutorialApp {
+  import Codecs._
+
   def main(args: Array[String]): Unit = {
     $(() => setupUI())
   }
@@ -113,6 +123,6 @@ object TutorialApp {
   def parseFsJson(): Unit = {
     val input = $("#input").text()
     val fs = JSON.parse(input).asInstanceOf[js.Dictionary[String]]
-    $("#output").text(IDLPExample.fs(fs).toString)
+    $("#output").text(write(IDLPExample.fs(fs)))
   }
 }

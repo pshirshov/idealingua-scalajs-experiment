@@ -14,6 +14,7 @@ scalaJSUseMainModuleInitializer := true
 
 libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6"
 libraryDependencies += "org.querki" %%% "jquery-facade" % "1.2"
+libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.7.1"
 
 skip in packageJSDependencies := false
 jsDependencies +=
