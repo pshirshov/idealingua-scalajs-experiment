@@ -2,17 +2,26 @@ package tutorial.webapp
 
 import java.util.UUID
 
+import com.github.pshirshov.izumi.idealingua.il.loader.{FilesystemEnumerator, ModelLoaderContextImpl}
 import com.github.pshirshov.izumi.idealingua.il.parser.IDLParser
-import com.github.pshirshov.izumi.idealingua.il.parser.model.ParsedDomain
 import com.github.pshirshov.izumi.idealingua.model.il.ast.raw.IL
+import com.github.pshirshov.izumi.idealingua.model.loader.LoadedModels
+import com.github.pshirshov.izumi.idealingua.model.parser.ParsedDomain
 import fastparse.core.Parsed
 import org.querki.jquery._
 
 import scala.scalajs.js
+import scala.scalajs.js.JSConverters._
+import scala.scalajs.js.JSON
 import scala.scalajs.js.annotation._
 
 @JSExportTopLevel("IDLP")
 object HelloWorld {
+  @JSExport
+  def fs(fs: Map[String, String]): LoadedModels = {
+    new PseudoContext(fs).loader.load()
+  }
+
   @JSExport
   def parse(domain: String): String = {
     IDLParser.parseDomain(domain).toString
@@ -31,14 +40,19 @@ object HelloWorld {
 
   @JSExport
   def parseDefinitions(domain: String): js.Array[IL.Val] = {
-    js.Array(parseModel(domain).model.definitions :_* )
+    js.Array(parseModel(domain).model.definitions: _*)
   }
+}
 
+class PseudoContext(fs: Map[String, String]) extends ModelLoaderContextImpl {
+  override def enumerator: FilesystemEnumerator = new FilesystemEnumerator.Pseudo(fs)
 }
 
 @JSGlobal("IDLP")
 @js.native
 object IDLPExample extends js.Object {
+  def fs(fs: Map[String, String]): LoadedModels = js.native
+
   def parse(domain: String): String = js.native
 }
 
@@ -47,17 +61,14 @@ object TutorialApp {
     $(() => setupUI())
   }
 
-  val example =
-    """domain idltest.enums
+  val domain: String =
+    """
+      |domain idltest.enums
       |
       |enum ShortSyntaxEnum = Element1 | Element2
-      |
-      |
-      |data SomeGenerics {
-      |  test: map[TestEnum, TestEnum]
-      |}
-      |
-        """.stripMargin
+    """.stripMargin
+
+  val example: Map[String, String] = Map("idltest/enums.domain" -> domain)
 
   def setupUI(): Unit = {
     $("""<div id="input-outer"/>""")
@@ -70,15 +81,20 @@ object TutorialApp {
       .appendTo($("body"))
 
     $("""<textarea id="input" rows="15" cols="100" />""")
-      .text(example)
+      .text(JSON.stringify(example.toJSDictionary))
       .appendTo($("#input-outer"))
 
     $("""<textarea id="output" rows="15" cols="100" />""")
       .appendTo($("#output-outer"))
 
     $("""<button type="button">Parse</button>""")
-      .click(() => addClickedMessage())
+      .click(() => parseDom())
       .appendTo($("#controls-outer"))
+
+    $("""<button type="button">Parse as FS json</button>""")
+      .click(() => parseFsJson())
+      .appendTo($("#controls-outer"))
+
 
     $("""<button type="button">UUID</button>""")
       .click(() => uuid())
@@ -86,11 +102,17 @@ object TutorialApp {
   }
 
   def uuid(): Unit = {
-    $("#output").text(UUID.randomUUID().toString)
+    $("#output").text($("#output").text() + "\n" + UUID.randomUUID().toString)
   }
 
-  def addClickedMessage(): Unit = {
+  def parseDom(): Unit = {
     val input = $("#input").text()
     $("#output").text(IDLPExample.parse(input))
+  }
+
+  def parseFsJson(): Unit = {
+    val input = $("#input").text()
+    val fs = JSON.parse(input).asInstanceOf[js.Dictionary[String]].toMap
+    $("#output").text(IDLPExample.fs(fs).toString)
   }
 }
