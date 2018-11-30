@@ -22,6 +22,7 @@ script:
 - json -I -f $TARGET -e 'this.description="Idealingua parser and typer"'
 - json -I -f $TARGET -e "this.version=\"0.1.$TRAVIS_BUILD_NUMBER\""
 - json -I -f $TARGET -e 'this.main="idealingua-sjs-opt.js"'
+- json -I -f $TARGET -e 'this.runkitExample="var idl = require(\"idealingua-js-facade\");\r\nidl.Idealingua.parsePseudoFS({\"idltest\/enums.domain\":\"\\ndomain idltest.enums\\n\\nenum ShortSyntaxEnum = Element1 | Element2\\n    \"});\r\n"'
 - cat $TARGET
 - npm publish idealingua-sjs/target/scala-2.12/scalajs-bundler/main
 cache:
