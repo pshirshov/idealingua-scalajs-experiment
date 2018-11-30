@@ -1,4 +1,4 @@
-package tutorial.webapp
+package com.github.pshirshov.izumi.idealingua.scalajs
 
 import com.github.pshirshov.izumi.idealingua.il.loader.{FilesystemEnumerator, ModelLoaderContextImpl}
 

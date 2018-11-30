@@ -1,4 +1,4 @@
-package tutorial.webapp
+package com.github.pshirshov.izumi.idealingua.scalajs
 
 import java.util.UUID
 
@@ -7,36 +7,8 @@ import upickle.default._
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
-import scala.scalajs.js.annotation._
-import scala.scalajs.js.{Dictionary, JSON}
+import scala.scalajs.js.JSON
 
-trait IdealinguaJSFacade {
-  def parsePseudoFS(fs: js.Dictionary[String]): js.Dictionary[String]
-}
-
-@JSExportTopLevel("Idealingua")
-object IdealinguaJSExport extends IdealinguaJSFacade {
-  import Codecs._
-
-  @JSExport
-  def parsePseudoFS(fs: js.Dictionary[String]): js.Dictionary[String] = {
-    val models = new PseudoContext(fs.toMap).loader.load()
-    val asDTO = LoadedModelsDTO(models)
-    val asJson = write(asDTO)
-    JSON.parse(asJson).asInstanceOf[js.Dictionary[String]]
-  }
-
-}
-
-
-
-@JSGlobal("Idealingua")
-@js.native
-object IdealinguaJSImport extends js.Object {
-  this: IdealinguaJSFacade => // this doesn't really work but at least allows to cogen methods in idea
-
-  def parsePseudoFS(fs: Dictionary[String]): Dictionary[String] = js.native
-}
 
 object TutorialApp {
 

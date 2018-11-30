@@ -1,4 +1,4 @@
-package tutorial.webapp
+package com.github.pshirshov.izumi.idealingua.scalajs
 
 import utest._
 

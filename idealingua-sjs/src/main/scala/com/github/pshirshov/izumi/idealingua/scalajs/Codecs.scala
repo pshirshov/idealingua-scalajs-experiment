@@ -1,4 +1,4 @@
-package tutorial.webapp
+package com.github.pshirshov.izumi.idealingua.scalajs
 
 import com.github.pshirshov.izumi.idealingua.model.common.TypeId._
 import com.github.pshirshov.izumi.idealingua.model.common._
