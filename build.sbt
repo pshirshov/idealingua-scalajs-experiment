@@ -32,4 +32,4 @@ lazy val root = (project in file("."))
   .aggregate(`idealingua-sjs`, `idealingua-sjs-test`)
 
 
-name := "idealingua-scalajs-example"
+name := "idealingua-scalajs"
