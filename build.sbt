@@ -30,7 +30,6 @@ lazy val `idealingua-sjs-test` = (project in file("idealingua-sjs-test"))
 
 lazy val root = (project in file("."))
   .aggregate(`idealingua-sjs`, `idealingua-sjs-test`)
-  .enablePlugins(ScalaJSPlugin)
 
 
 name := "idealingua-scalajs-example"

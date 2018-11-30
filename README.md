@@ -4,8 +4,14 @@ Before you start:
 
 ```
 npm install jsdom
-# optionally, install izumi-r2 artifacts locally: 
-# sbt clean publishLocal  
+```
+
+
+You may want to install `izumi-r2` artifacts locally:
+
+```
+cd ~/work/izumi-r2
+sbt clean publishLocal
 ```
 
 Then:

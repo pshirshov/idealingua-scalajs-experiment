@@ -10,7 +10,7 @@ import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.JSON
 
 
-object TutorialApp {
+object IdealinguaApp {
 
   def main(args: Array[String]): Unit = {
     $(() => setupUI())
@@ -42,18 +42,9 @@ object TutorialApp {
     $("""<textarea id="output" rows="15" cols="100" />""")
       .appendTo($("#output-outer"))
 
-    $("""<button type="button">Parse as FS json</button>""")
+    $("""<button id="parse-fs" type="button">Parse as FS json</button>""")
       .click(() => parseFsJson())
       .appendTo($("#controls-outer"))
-
-
-    $("""<button type="button">UUID</button>""")
-      .click(() => uuid())
-      .appendTo($("#controls-outer"))
-  }
-
-  def uuid(): Unit = {
-    $("#output").text($("#output").text() + "\n" + UUID.randomUUID().toString)
   }
 
   def parseFsJson(): Unit = {
