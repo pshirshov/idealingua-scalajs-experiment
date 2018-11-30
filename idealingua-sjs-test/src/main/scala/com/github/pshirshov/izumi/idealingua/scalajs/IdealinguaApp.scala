@@ -1,7 +1,5 @@
 package com.github.pshirshov.izumi.idealingua.scalajs
 
-import java.util.UUID
-
 import org.querki.jquery._
 import upickle.default._
 
