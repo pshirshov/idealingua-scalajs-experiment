@@ -15,6 +15,7 @@ script:
 - npm install -g json
 - json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e 'this.private="false"'
 - json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e 'this.license="MIT"'
+- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e 'this.name="idealingua-js-facade"'
 - json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e 'this.description="Idealingua parser and typer"'
 - json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e "this.version=\"0.1.$TRAVIS_BUILD_NUMBER\""
 - npm publish idealingua-sjs/target/scala-2.12/scalajs-bundler/main
