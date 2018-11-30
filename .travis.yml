@@ -10,25 +10,33 @@ before_install:
 - npm install
 - npm install jsdom
 script:
-- sbt clean test fastOptJS fullOptJS
+#- sbt clean test fastOptJS fullOptJS
 - sbt clean fullOptJS::webpack
 - npm install -g json
-- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e 'delete this.private'
-- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e 'this.license="MIT"'
-- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e 'this.name="idealingua-js-facade"'
-- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e 'this.description="Idealingua parser and typer"'
-- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e "this.version=\"0.1.$TRAVIS_BUILD_NUMBER\""
+- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
+  'delete this.private'
+- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
+  'this.license="MIT"'
+- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
+  'this.name="idealingua-js-facade"'
+- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
+  'this.description="Idealingua parser and typer"'
+- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
+  "this.version=\"0.1.$TRAVIS_BUILD_NUMBER\""
 - cat idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json
 - npm publish idealingua-sjs/target/scala-2.12/scalajs-bundler/main
 cache:
   directories:
-    - $HOME/.sbt
-    - $HOME/.ivy2
-    - $HOME/.coursier
-    - $HOME/.cache/coursier
-    - $HOME/.m2
+  - "$HOME/.sbt"
+  - "$HOME/.ivy2"
+  - "$HOME/.coursier"
+  - "$HOME/.cache/coursier"
+  - "$HOME/.m2"
 deploy:
   provider: npm
-  email: "pshirshov@gmail.com"
+  email: pshirshov@gmail.com
   api_key:
-    secure: sbNbWfY396Cn0UcIJxskNv3c8kOMIoO/izwjstCLoM2MBF0AtOTVhms135BqnBZLlrBd3K+mUYYAmUWBQIE+YktXykehPT4uIUxJlKx/V/EC0HElZj9W9xZ4dxZ8gT+Ur+rkvNkb53e1WyaCmCPL3IRJSjiky8LPuVvvk4B2Pc4cbOpK16r+Df2ol73XOkahIpugn5Z/d5w9Br4hO2VbtOVkmNxsZsPGIK0QvDK2wNTC2dmHC/Sksoa/3II82odpz2UnFvE8J2nkQGAsofCXkTj4mJ+gdtmiKrG+0dut8mbRend48MWoOhk07EGmtsgQ7lKLf3wd2rPpNjCjG8LITVMoOe4DMUjfzDIOnI44RYxRvdFXhxHQO3+UfqzywrbavvZMAMjvJzwKqO9pe+QK74X5fr6TBQG8R18+k+5QKNDtq/51oE19J8GrnJOL7m6CdNuAVfNGSaeptYHnwPIFoS4WwVbaxgTIw6Lg/fwanNoon1O3jYkMlrYBEtHHSKFlYvzDscnXMgKt0YfhiopoFcaZz3XhObPytgVHRjmcbW+DzPya2Hh7xBJVJMnDLv1KPouahFWDTVUrc0hcRAVs2IeUIZdtvqCuCz8N96GALzCt8KnYZwkxYaiVcieYzcX8fq4oG/+AcxVo/UrM0I/Duh173u5sTWoEH7VdnGSxZxU=
+    secure: MWgXNeQrlzHogB6kL4GpJeH/4l0c68hj1yUYnsY/Cv7eZnDH5dO7yFvSalPVAfcnZucAMEh3I1/O0aAUwfLKbfh1+SoQR6tG3Znkbb7hXNfIHQLVP9lq/3T8vCzbpjf2Imvfk3CgMPGEwKghniiS9zUBN88QfF5SkQEwo0i4KjHl6rr7uZ2OHSOyr/GlF6DvSZF2LqcmiJNnVVxk+BnDVcUQ+5ly6aOj3vzdRzN3hFqe4sVPnPrx1u5F3F/q5ji6ogjHIiK8+7ltzLq+L0OZx47zdxRkzwEwiH4djrJG9fpGzf67MqZZKHBsoAv1sMwYSWLpupX+VION35V5cE+ZjCfvSJTsNddwKayXjMONBjWJ1giKfXYb/v/BBXTOoJMEg3OqONO6bMEOg7ESm9yJ4DeVmFmpyV7cHaoqLjBw4eSoSZfDB6aduWw6elkbWKr7ZqFP6zvfzRmFLhfGNXjKr6XQfG0amQu9fuWB/8b21/xh184yOFDW1O82lAs7yPqbzapGbGdGZlnmI5EoUr0Xg4qMVBQYz/cQSW9nGBoVFXWZWy9HoV6qm0zJahzNSsViSQZbvEgogiFDQuqJuLe9rLjlWYCz8zBO0DQYxraB9d7pAx9/JZSLVrwggGTvN0x7SLl7d8V/I7i2jH8eogysNl7UZVGZ2EP3H1LUCzVSvtc=
+  on:
+    repo: pshirshov/idealingua-scalajs-experiment
+    branch: develop
