@@ -31,6 +31,13 @@ Production output:
 ./idealingua-sjs/target/scala-2.12/idealingua-sjs-opt.js
 ```
 
+Webpack:
+
+```
+sbt clean fastOptJS::webpack
+sbt clean fullOptJS::webpack
+```
+
 Testing
 -------
 

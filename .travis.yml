@@ -1,17 +1,24 @@
 language: scala
 scala:
-  - 2.12.7
+- 2.12.7
 jdk:
-  - oraclejdk8
+- oraclejdk8
 before_install:
-  - . $HOME/.nvm/nvm.sh
-  - nvm install stable
-  - nvm use stable
-  - npm install
-  - npm install jsdom
+- ". $HOME/.nvm/nvm.sh"
+- nvm install stable
+- nvm use stable
+- npm install
+- npm install jsdom
 script:
-  - sbt clean test fastOptJS fullOptJS
+- sbt clean test fastOptJS fullOptJS
+- sbt clean fullOptJS::webpack
+- npm publish idealingua-sjs/target/scala-2.12/scalajs-bundler/main
 cache:
   directories:
-    - $HOME/.ivy2/cache
-    - $HOME/.sbt/boot/
+  - "$HOME/.ivy2/cache"
+  - "$HOME/.sbt/boot/"
+deploy:
+  provider: npm
+  email: "pshirshov@gmail.com"
+  api_key:
+    secure: sbNbWfY396Cn0UcIJxskNv3c8kOMIoO/izwjstCLoM2MBF0AtOTVhms135BqnBZLlrBd3K+mUYYAmUWBQIE+YktXykehPT4uIUxJlKx/V/EC0HElZj9W9xZ4dxZ8gT+Ur+rkvNkb53e1WyaCmCPL3IRJSjiky8LPuVvvk4B2Pc4cbOpK16r+Df2ol73XOkahIpugn5Z/d5w9Br4hO2VbtOVkmNxsZsPGIK0QvDK2wNTC2dmHC/Sksoa/3II82odpz2UnFvE8J2nkQGAsofCXkTj4mJ+gdtmiKrG+0dut8mbRend48MWoOhk07EGmtsgQ7lKLf3wd2rPpNjCjG8LITVMoOe4DMUjfzDIOnI44RYxRvdFXhxHQO3+UfqzywrbavvZMAMjvJzwKqO9pe+QK74X5fr6TBQG8R18+k+5QKNDtq/51oE19J8GrnJOL7m6CdNuAVfNGSaeptYHnwPIFoS4WwVbaxgTIw6Lg/fwanNoon1O3jYkMlrYBEtHHSKFlYvzDscnXMgKt0YfhiopoFcaZz3XhObPytgVHRjmcbW+DzPya2Hh7xBJVJMnDLv1KPouahFWDTVUrc0hcRAVs2IeUIZdtvqCuCz8N96GALzCt8KnYZwkxYaiVcieYzcX8fq4oG/+AcxVo/UrM0I/Duh173u5sTWoEH7VdnGSxZxU=
