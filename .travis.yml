@@ -9,10 +9,10 @@ before_install:
 - nvm use stable
 - npm install
 - npm install jsdom
-script:
-#- sbt clean test fastOptJS fullOptJS
-- sbt clean fullOptJS::webpack
 - npm install -g json
+- echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}"
+script:
+- sbt clean fullOptJS::webpack
 - json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
   'delete this.private'
 - json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
@@ -32,11 +32,6 @@ cache:
   - "$HOME/.coursier"
   - "$HOME/.cache/coursier"
   - "$HOME/.m2"
-deploy:
-  provider: npm
-  email: pshirshov@gmail.com
-  api_key:
-    secure: MWgXNeQrlzHogB6kL4GpJeH/4l0c68hj1yUYnsY/Cv7eZnDH5dO7yFvSalPVAfcnZucAMEh3I1/O0aAUwfLKbfh1+SoQR6tG3Znkbb7hXNfIHQLVP9lq/3T8vCzbpjf2Imvfk3CgMPGEwKghniiS9zUBN88QfF5SkQEwo0i4KjHl6rr7uZ2OHSOyr/GlF6DvSZF2LqcmiJNnVVxk+BnDVcUQ+5ly6aOj3vzdRzN3hFqe4sVPnPrx1u5F3F/q5ji6ogjHIiK8+7ltzLq+L0OZx47zdxRkzwEwiH4djrJG9fpGzf67MqZZKHBsoAv1sMwYSWLpupX+VION35V5cE+ZjCfvSJTsNddwKayXjMONBjWJ1giKfXYb/v/BBXTOoJMEg3OqONO6bMEOg7ESm9yJ4DeVmFmpyV7cHaoqLjBw4eSoSZfDB6aduWw6elkbWKr7ZqFP6zvfzRmFLhfGNXjKr6XQfG0amQu9fuWB/8b21/xh184yOFDW1O82lAs7yPqbzapGbGdGZlnmI5EoUr0Xg4qMVBQYz/cQSW9nGBoVFXWZWy9HoV6qm0zJahzNSsViSQZbvEgogiFDQuqJuLe9rLjlWYCz8zBO0DQYxraB9d7pAx9/JZSLVrwggGTvN0x7SLl7d8V/I7i2jH8eogysNl7UZVGZ2EP3H1LUCzVSvtc=
-  on:
-    repo: pshirshov/idealingua-scalajs-experiment
-    branch: develop
+env:
+  global:
+    secure: HFQ6ZptMlQg0dOEQKRWgQUdUePDd4fsIJJvhet0AJ6egLrPUXlpYYVABJvCScUAvq3TKkwZEQmAAGt24orQX7QtGJ5FgwzdQMFkw3fvqTEQZl0JH4XDJNWRI2q3PuzBMGPE7Ad0RcaH58SXBmGD2u81wcI0xkbp1rMWdZjW2gvvsrZblogAxhcm75VcnCwJC9ADS4lUBFesiQpftx4Qe+xu0wNG3TrQT/ol8nvtaKkbj1JqRKEaR4m97N4sE4fydL4/h3yCEgfQATQJJZ2srbF2KDn466gTsmsAOHcZ88i6fDJdnrOXH7icH8/wAhbUmP0FLj1xU3C5/cfFnH9pX97CB0RIqsthAM7sy3kKxL7Iu/a0zkD/ePJ2YPUUk3+h+QDngLz4t8q3BLZGqCsPjwbe2d7MIH/QViz4CeRSJcTu9ZCORKfCrHll2kqR+XiLdfcLWj30Vf+ASSygHzEeWkYw3r7lJPeXodOxLsRYNWoqwY2G0pq1ldUxVOAML8Vh9w9Pugc1pLjzTYRu7AqHMFqXi5mwdhB4fxzbl9C5AVcGT+e6Xi5V3vhE5ORtWccHoJ6PBFUxGUebeNSmqGG8s3Px7gtebGhFdABI8DSr/kgRNOPdvCAJlDIrkjfassmL453QmkkmDmgIJC4nM50kEyWxzHLUN++7EGkQo1gXCBhY=
