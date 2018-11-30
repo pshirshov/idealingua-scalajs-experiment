@@ -10,7 +10,7 @@ before_install:
 - npm install
 - npm install jsdom
 - npm install -g json
-- echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+- echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
 script:
 - sbt clean fullOptJS::webpack
 - json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
