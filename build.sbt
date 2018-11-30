@@ -1,4 +1,5 @@
 import sbt.Keys.{resolvers, testFrameworks}
+import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport.npmDependencies
 import scalajsbundler.util.JSON._
 
 resolvers in ThisBuild += Opts.resolver.sonatypeReleases
@@ -9,37 +10,30 @@ scalaVersion in ThisBuild := "2.12.7"
 val pversion = "0.1"
 
 version in ThisBuild := {
-  if (sys.props.contains("TRAVIS_BUILD_NUMBER")) {
-    s"$pversion.${sys.props("TRAVIS_BUILD_NUMBER")}"
+  if (sys.env.contains("TRAVIS_BUILD_NUMBER")) {
+    s"$pversion.${sys.env("TRAVIS_BUILD_NUMBER")}"
   } else {
     pversion
   }
 }
 
 lazy val `idealingua-sjs` = (project in file("idealingua-sjs"))
-  .enablePlugins(ScalaJSPlugin)
-  .enablePlugins(ScalaJSBundlerPlugin)
+  .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .settings(
-    libraryDependencies += "com.github.pshirshov.izumi.r2" %%% "idealingua-core" % "0.7.0-SNAPSHOT",
-    libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.7.1",
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6",
-    version in webpack := "4.1.1",
-    webpackConfigFile in fastOptJS := Some(baseDirectory.value / "dev.webpack.config.js"),
-    webpackConfigFile in fullOptJS := Some(baseDirectory.value / "prod.webpack.config.js"),
-    webpackConfigFile in Test := Some(baseDirectory.value / "common.webpack.config.js")
-  )
-  .settings(
-    inConfig(Compile)(Seq(additionalNpmConfig in Compile := Map(
-      "name" -> str(name.value),
-      "version" -> str(version.value),
-      "description" -> str("Idealingua parser and typer"),
-      "license" -> str("BSD-3-Clause"),
-      "repository" -> obj(
-        "type" -> str("git"),
-        "url" -> str("https://github.com/pshirshov/idealingua-scalajs-experiment")
-      )
-    )))
-
+    libraryDependencies += "com.github.pshirshov.izumi.r2" %%% "idealingua-core" % "0.7.0-SNAPSHOT"
+    , libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.7.1"
+    , libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6"
+    // fails. Sbt bug?
+//    , additionalNpmConfig in Compile ++= Map(
+//      "name" -> str(name.value),
+//      "version" -> str(version.value),
+//      "description" -> str("Idealingua parser and typer"),
+//      "license" -> str("BSD-3-Clause"),
+//      "repository" -> obj(
+//        "type" -> str("git"),
+//        "url" -> str("https://github.com/pshirshov/idealingua-scalajs-experiment")
+//      )
+//    )
   )
 
 lazy val `idealingua-sjs-test` = (project in file("idealingua-sjs-test"))
