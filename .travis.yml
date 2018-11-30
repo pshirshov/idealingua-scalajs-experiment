@@ -3,6 +3,8 @@ scala:
 - 2.12.7
 jdk:
 - oraclejdk8
+env: 
+  - TARGET=idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json
 before_install:
 - ". $HOME/.nvm/nvm.sh"
 - nvm install stable
@@ -14,17 +16,13 @@ before_install:
 - npm whoami
 script:
 - sbt clean fullOptJS::webpack
-- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
-  'delete this.private'
-- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
-  'this.license="MIT"'
-- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
-  'this.name="idealingua-js-facade"'
-- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
-  'this.description="Idealingua parser and typer"'
-- json -I -f idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json -e
-  "this.version=\"0.1.$TRAVIS_BUILD_NUMBER\""
-- cat idealingua-sjs/target/scala-2.12/scalajs-bundler/main/package.json
+- json -I -f $TARGET -e 'delete this.private'
+- json -I -f $TARGET -e 'this.license="MIT"'
+- json -I -f $TARGET -e 'this.name="idealingua-js-facade"'
+- json -I -f $TARGET -e 'this.description="Idealingua parser and typer"'
+- json -I -f $TARGET -e "this.version=\"0.1.$TRAVIS_BUILD_NUMBER\""
+- json -I -f $TARGET -e 'this.main="idealingua-sjs-opt.js"'
+- cat $TARGET
 - npm publish idealingua-sjs/target/scala-2.12/scalajs-bundler/main
 cache:
   directories:
