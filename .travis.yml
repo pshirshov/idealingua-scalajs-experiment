@@ -22,8 +22,11 @@ script:
 - npm publish idealingua-sjs/target/scala-2.12/scalajs-bundler/main
 cache:
   directories:
-  - "$HOME/.ivy2/cache"
-  - "$HOME/.sbt/boot/"
+    - $HOME/.sbt
+    - $HOME/.ivy2
+    - $HOME/.coursier
+    - $HOME/.cache/coursier
+    - $HOME/.m2
 deploy:
   provider: npm
   email: "pshirshov@gmail.com"
