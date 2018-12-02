@@ -17,7 +17,7 @@ before_install:
 script:
 - sbt clean fullOptJS::webpack
 - json -I -f $TARGET -e 'delete this.private'
-- json -I -f $TARGET -e 'this.license="MIT"'
+- json -I -f $TARGET -e 'this.license="EULA"'
 - json -I -f $TARGET -e 'this.name="idealingua-js-facade"'
 - json -I -f $TARGET -e 'this.description="Idealingua parser and typer"'
 - json -I -f $TARGET -e "this.version=\"0.1.$TRAVIS_BUILD_NUMBER\""

@@ -21,7 +21,7 @@ object IdealinguaTest extends TestSuite {
       val output = $("textarea#output")
       val parsed = JSON.parse(output.text())
       val asDict = parsed.asInstanceOf[js.Dictionary[js.Object]]
-      assert(asDict("loaded").isInstanceOf[js.Array[js.Object]])
+      assert(asDict("loaded").isInstanceOf[js.Array[_]])
 
     }
   }

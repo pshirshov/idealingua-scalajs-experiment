@@ -20,9 +20,10 @@ version in ThisBuild := {
 lazy val `idealingua-sjs` = (project in file("idealingua-sjs"))
   .enablePlugins(ScalaJSPlugin, ScalaJSBundlerPlugin)
   .settings(
-    libraryDependencies += "com.github.pshirshov.izumi.r2" %%% "idealingua-core" % "0.7.0-SNAPSHOT"
+    libraryDependencies += "com.github.pshirshov.izumi.r2" %%% "idealingua-transpilers" % "0.7.0-SNAPSHOT"
     , libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.7.1"
     , libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6"
+    , libraryDependencies += "org.scala-lang.modules" %%% "scala-collection-compat" % "0.2.1"
     // fails. Sbt bug?
 //    , additionalNpmConfig in Compile ++= Map(
 //      "name" -> str(name.value),

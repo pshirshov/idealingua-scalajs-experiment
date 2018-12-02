@@ -4,7 +4,11 @@ import com.github.pshirshov.izumi.idealingua.model.common.TypeId._
 import com.github.pshirshov.izumi.idealingua.model.common._
 import com.github.pshirshov.izumi.idealingua.model.il.ast.typed._
 import com.github.pshirshov.izumi.idealingua.model.loader.{FSPath, LoadedDomain, LoadedModels}
+import com.github.pshirshov.izumi.idealingua.model.output.{Module, ModuleId}
+import com.github.pshirshov.izumi.idealingua.model.publishing.manifests._
+import com.github.pshirshov.izumi.idealingua.model.publishing.{ManifestDependency, Publisher}
 import com.github.pshirshov.izumi.idealingua.model.typespace.{TypespaceData, _}
+import com.github.pshirshov.izumi.idealingua.translator.{IDLLanguage, ProvidedRuntime}
 import upickle.default.{macroRW, ReadWriter => RW, _}
 
 object Codecs {
@@ -184,6 +188,27 @@ object Codecs {
 
   implicit def rw52: RW[LoadedDomainDTO] = macroRW
 
+  //  implicit def rw200: RW[UntypedCompilerOptions] = macroRW
+//  implicit def rw200: RW[IDLResult] = macroRW
+//  implicit def rw202: RW[IDLSuccess] = macroRW
+
+  implicit def rw201: RW[IDLLanguage] = macroRW
+  implicit def rw204: RW[ProvidedRuntime] = macroRW
+  implicit def rw205: RW[Module] = macroRW
+  implicit def rw206: RW[ModuleId] = macroRW
+
+  implicit def rw211: RW[ManifestDependency] = macroRW
+  implicit def rw212: RW[Publisher] = macroRW
+  implicit def rw213: RW[TypeScriptModuleSchema] = macroRW
+  implicit def rw214: RW[ScalaBuildManifest] = macroRW
+  implicit def rw215: RW[TypeScriptBuildManifest] = macroRW
+  implicit def rw216: RW[TypeScriptBuildManifest] = macroRW
+  implicit def rw217: RW[GoLangBuildManifest] = macroRW
+  implicit def rw218: RW[CSharpBuildManifest] = macroRW
+
+  implicit def rw250: RW[CompilationResult] = macroRW
+  implicit def rw251: RW[CompilationResult.FailedToLoad] = macroRW
+  implicit def rw252: RW[CompilationResult.Success] = macroRW
 
 
   implicit def rw55: RW[TypespaceDTO] = macroRW
@@ -210,13 +235,7 @@ object LoadedModelsDTO {
   def apply(models: LoadedModels): LoadedModelsDTO = {
     LoadedModelsDTO(models.loaded.map {
       case failure: LoadedDomain.Failure =>
-        failure match {
-          case LoadedDomain.ParsingFailed(path, message) =>
-            LoadedDomainDTO.ParsingFailed(path, message)
-          case LoadedDomain.TypingFailed(path, domain, issues) =>
-            LoadedDomainDTO.TypingFailed(path, domain, issues)
-        }
-
+        LoadedDomainDTO.Failure(failure)
       case LoadedDomain.Success(path, typespace) =>
         LoadedDomainDTO.Success(path, TypespaceDTO(typespace))
     })
@@ -228,6 +247,17 @@ sealed trait LoadedDomainDTO
 object LoadedDomainDTO {
 
   sealed trait Failure extends LoadedDomainDTO
+
+  object Failure {
+    def apply(failure: LoadedDomain.Failure): Failure = {
+      failure match {
+        case LoadedDomain.ParsingFailed(path, message) =>
+          LoadedDomainDTO.ParsingFailed(path, message)
+        case LoadedDomain.TypingFailed(path, domain, issues) =>
+          LoadedDomainDTO.TypingFailed(path, domain, issues)
+      }
+    }
+  }
 
   final case class Success(path: FSPath, typespace: TypespaceData) extends LoadedDomainDTO
 
