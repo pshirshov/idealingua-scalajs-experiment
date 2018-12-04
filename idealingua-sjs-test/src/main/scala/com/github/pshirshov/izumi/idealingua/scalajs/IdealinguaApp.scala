@@ -20,7 +20,8 @@ object IdealinguaApp {
     """
       |domain idltest.enums
       |
-      |enum ShortSyntaxEnum = Element1 | Element1
+      |enum ShortSyntaxEnum = Element1 | Element2
+      |enum ShortSyntaxEnum = Element1 | Element2
     """.stripMargin
 
   val example: Map[String, String] = Map("idltest/enums.domain" -> domain)
@@ -60,7 +61,6 @@ object IdealinguaApp {
       .appendTo($("#controls-outer"))
 
 
-
     $("""<button id="parse-fs" type="button">ProvidedRuntime example</button>""")
       .click(() => runtimeExample())
       .appendTo($("#controls-outer"))
@@ -76,24 +76,34 @@ object IdealinguaApp {
   }
 
   def compileFsJson(): Unit = {
-    val input = $("#input").text()
-    val fs = JSON.parse(input).asInstanceOf[js.Dictionary[String]]
-    val language = $("#target-language").value()
-    val parsed = IdealinguaJSImport.compilePseudoFS(fs, language.toString, js.Dictionary[js.Any](), js.Dictionary[js.Any](), js.Array("*"))
+    try {
+      val input = $("#input").text()
+      val fs = JSON.parse(input).asInstanceOf[js.Dictionary[String]]
+      val language = $("#target-language").value()
+      val parsed = IdealinguaJSImport.compilePseudoFS(fs, language.toString, js.Dictionary[js.Any](), js.Dictionary[js.Any](), js.Array("*"))
 
-    val asJsonStr = JSON.stringify(parsed)
-    val asJson = read[ujson.Value](asJsonStr)
-    val idented = write(asJson, indent = 2)
-    $("#output").text(idented)
+      val asJsonStr = JSON.stringify(parsed)
+      val asJson = read[ujson.Value](asJsonStr)
+      val idented = write(asJson, indent = 2)
+      $("#output").text(idented)
+    } catch {
+      case t: Throwable =>
+        $("#output").text(t.toString)
+    }
   }
 
   def parseFsJson(): Unit = {
-    val input = $("#input").text()
-    val fs = JSON.parse(input).asInstanceOf[js.Dictionary[String]]
-    val parsed = IdealinguaJSImport.parsePseudoFS(fs)
-    val asJsonStr = JSON.stringify(parsed)
-    val asJson = read[ujson.Value](asJsonStr)
-    val idented = write(asJson, indent = 2)
-    $("#output").text(idented)
+    try {
+      val input = $("#input").text()
+      val fs = JSON.parse(input).asInstanceOf[js.Dictionary[String]]
+      val parsed = IdealinguaJSImport.parsePseudoFS(fs)
+      val asJsonStr = JSON.stringify(parsed)
+      val asJson = read[ujson.Value](asJsonStr)
+      val idented = write(asJson, indent = 2)
+      $("#output").text(idented)
+    } catch {
+      case t: Throwable =>
+        $("#output").text(t.toString)
+    }
   }
 }
