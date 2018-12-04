@@ -89,7 +89,12 @@ object Codecs {
   implicit def rw36: RW[MissingDependency.DepPrimitiveField] = macroRW
 
 
-  implicit def rw37: RW[Issue] = macroRW
+  implicit def rIssue: Reader[Issue] = macroR
+  
+  case class ExtendedIssue(issue: Issue, repr: String)
+  implicit def wExtendedIssue: Writer[ExtendedIssue] = macroRW
+  implicit def rw37: Writer[Issue] = writer[ExtendedIssue].comap[Issue](i => ExtendedIssue(i, i.toString))
+
 
   implicit def rw38: RW[Issue.AmbigiousAdtMember] = macroRW
 

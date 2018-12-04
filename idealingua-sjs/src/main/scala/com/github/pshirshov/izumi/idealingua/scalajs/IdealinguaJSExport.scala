@@ -1,7 +1,6 @@
 package com.github.pshirshov.izumi.idealingua.scalajs
 
 import com.github.pshirshov.izumi.idealingua.model.loader.LoadedDomain
-import com.github.pshirshov.izumi.idealingua.model.output.Module
 import com.github.pshirshov.izumi.idealingua.model.publishing.BuildManifest
 import com.github.pshirshov.izumi.idealingua.translator.{TypespaceTranslatorFacade, _}
 import upickle.default._
