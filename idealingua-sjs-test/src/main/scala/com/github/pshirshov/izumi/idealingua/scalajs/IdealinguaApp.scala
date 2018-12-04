@@ -20,7 +20,7 @@ object IdealinguaApp {
     """
       |domain idltest.enums
       |
-      |enum ShortSyntaxEnum = Element1 | Element2
+      |enum ShortSyntaxEnum = Element1 | Element1
     """.stripMargin
 
   val example: Map[String, String] = Map("idltest/enums.domain" -> domain)

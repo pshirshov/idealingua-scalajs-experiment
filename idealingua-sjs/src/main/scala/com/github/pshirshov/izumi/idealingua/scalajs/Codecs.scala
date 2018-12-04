@@ -97,7 +97,11 @@ object Codecs {
   implicit def rIssue: Reader[Issue] = macroR
 
   case class ExtendedIssue(issue: Issue, repr: String)
-  implicit def wExtendedIssue: Writer[ExtendedIssue] = macroRW
+
+  implicit def wExtendedIssue: Writer[ExtendedIssue] = {
+    implicit def justIssue : RW[Issue] = macroRW[Issue]
+    macroRW
+  }
   implicit def rw37: Writer[Issue] = writer[ExtendedIssue].comap[Issue](i => ExtendedIssue(i, i.toString))
 
 
