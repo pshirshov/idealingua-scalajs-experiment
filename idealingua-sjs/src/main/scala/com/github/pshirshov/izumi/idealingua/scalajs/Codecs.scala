@@ -2,6 +2,7 @@ package com.github.pshirshov.izumi.idealingua.scalajs
 
 import com.github.pshirshov.izumi.idealingua.model.common.TypeId._
 import com.github.pshirshov.izumi.idealingua.model.common._
+import com.github.pshirshov.izumi.idealingua.model.il.ast.InputPosition
 import com.github.pshirshov.izumi.idealingua.model.il.ast.typed._
 import com.github.pshirshov.izumi.idealingua.model.loader.{FSPath, LoadedDomain, LoadedModels}
 import com.github.pshirshov.izumi.idealingua.model.output.{Module, ModuleId}
@@ -89,8 +90,12 @@ object Codecs {
   implicit def rw36: RW[MissingDependency.DepPrimitiveField] = macroRW
 
 
+  implicit def rwInputPosition: RW[InputPosition] = macroRW
+  implicit def rwInputPositionDefined: RW[InputPosition.Defined] = macroRW
+  implicit def rwInputPositionUndefined: RW[InputPosition.Undefined.type] = macroRW
+
   implicit def rIssue: Reader[Issue] = macroR
-  
+
   case class ExtendedIssue(issue: Issue, repr: String)
   implicit def wExtendedIssue: Writer[ExtendedIssue] = macroRW
   implicit def rw37: Writer[Issue] = writer[ExtendedIssue].comap[Issue](i => ExtendedIssue(i, i.toString))
