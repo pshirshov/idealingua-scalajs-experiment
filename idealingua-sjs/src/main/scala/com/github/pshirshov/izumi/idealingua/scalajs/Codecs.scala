@@ -2,7 +2,7 @@ package com.github.pshirshov.izumi.idealingua.scalajs
 
 import com.github.pshirshov.izumi.idealingua.model.common.TypeId._
 import com.github.pshirshov.izumi.idealingua.model.common._
-import com.github.pshirshov.izumi.idealingua.model.il.ast.InputPosition
+import com.github.pshirshov.izumi.idealingua.model.il.ast.{InputPosition, typed}
 import com.github.pshirshov.izumi.idealingua.model.il.ast.typed._
 import com.github.pshirshov.izumi.idealingua.model.loader.{FSPath, LoadedDomain, LoadedModels}
 import com.github.pshirshov.izumi.idealingua.model.output.{Module, ModuleId}
@@ -184,11 +184,21 @@ object Codecs {
 
   implicit def rw120: RW[Super] = macroRW
 
+  implicit def rwTypedValue: RW[typed.Value] = macroRW
+  implicit def rwTypedValue0: RW[typed.Value.Typed] = macroRW
+  implicit def rwTypedValue1: RW[typed.Value.CMap] = macroRW
+  implicit def rwTypedValue2: RW[typed.Value.CTyped] = macroRW
+  implicit def rwTypedValue3: RW[typed.Value.CTypedList] = macroRW
+  implicit def rwTypedValue4: RW[typed.Value.CTypedObject] = macroRW
 
-  implicit def rw119: RW[Anno] = readwriter[ujson.Value].bimap[Anno](
-    data => ujson.Null,
-    json => null
-  )
+  implicit def rwTypedValue5: RW[typed.Value.CList] = macroRW
+  implicit def rwTypedValue6: RW[typed.Value.CInt] = macroRW
+  implicit def rwTypedValue7: RW[typed.Value.CLong] = macroRW
+  implicit def rwTypedValue8: RW[typed.Value.CBool] = macroRW
+  implicit def rwTypedValue9: RW[typed.Value.CFloat] = macroRW
+  implicit def rwTypedValue10: RW[typed.Value.CString] = macroRW
+
+  implicit def rwAnno: RW[Anno] = macroRW
 
   implicit def rw53: RW[LoadedModelsDTO] = macroRW
 
