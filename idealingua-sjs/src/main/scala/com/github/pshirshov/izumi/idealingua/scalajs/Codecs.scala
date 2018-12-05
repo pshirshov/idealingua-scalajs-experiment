@@ -9,6 +9,7 @@ import com.github.pshirshov.izumi.idealingua.model.output.{Module, ModuleId}
 import com.github.pshirshov.izumi.idealingua.model.publishing.manifests._
 import com.github.pshirshov.izumi.idealingua.model.publishing.{ManifestDependency, Publisher}
 import com.github.pshirshov.izumi.idealingua.model.typespace.{TypespaceData, _}
+import com.github.pshirshov.izumi.idealingua.scalajs.model._
 import com.github.pshirshov.izumi.idealingua.translator.{IDLLanguage, ProvidedRuntime}
 import upickle.default.{macroRW, ReadWriter => RW, _}
 
@@ -100,11 +101,14 @@ object Codecs {
 
   case class ExtendedIssue(issue: Issue, repr: String)
 
-  implicit def wExtendedIssue: Writer[ExtendedIssue] = {
-    implicit def justIssue: RW[Issue] = macroRW[Issue]
+  object ExtendedIssue {
+    implicit def wExtendedIssue: Writer[ExtendedIssue] = {
+      implicit def justIssue: RW[Issue] = macroRW[Issue]
 
-    macroRW
+      macroRW
+    }
   }
+
 
   implicit def rw37: Writer[Issue] = {
     writer[ExtendedIssue].comap[Issue](i => ExtendedIssue(i, i.toString))
@@ -274,80 +278,4 @@ object Codecs {
   )
 
 
-}
-
-// we need to copy this bcs typespace is not a dto
-case class LoadedModelsDTO(loaded: Seq[LoadedDomainDTO])
-
-object LoadedModelsDTO {
-  def apply(models: LoadedModels): LoadedModelsDTO = {
-    LoadedModelsDTO(models.loaded.map {
-      case failure: LoadedDomain.Failure =>
-        LoadedDomainDTO.Failure(failure)
-      case LoadedDomain.Success(path, typespace) =>
-        LoadedDomainDTO.Success(path, TypespaceDTO(typespace))
-    })
-  }
-}
-
-sealed trait LoadedDomainDTO
-
-object LoadedDomainDTO {
-
-  sealed trait Failure extends LoadedDomainDTO
-
-  object Failure {
-    def apply(failure: LoadedDomain.Failure): Failure = {
-      failure match {
-        case LoadedDomain.ParsingFailed(path, message) =>
-          LoadedDomainDTO.ParsingFailed(path, message)
-        case LoadedDomain.TypingFailed(path, domain, issues) =>
-          LoadedDomainDTO.TypingFailed(path, domain, issues)
-      }
-    }
-  }
-
-  final case class Success(path: FSPath, typespace: TypespaceData) extends LoadedDomainDTO
-
-  final case class ParsingFailed(path: FSPath, message: String) extends Failure
-
-  final case class TypingFailed(path: FSPath, domain: DomainId, issues: List[Issue]) extends Failure
-
-}
-
-
-case class TypespaceDTO(domain: DomainDefinition, types: TypeCollectionData) extends TypespaceData
-
-object TypespaceDTO {
-  def apply(data: TypespaceData): TypespaceDTO = new TypespaceDTO(data.domain, data.types)
-}
-
-case class TypeCollectionDTO(
-                              all: Seq[TypeDef],
-                              structures: Seq[TypeDef.WithStructure],
-                              interfaceEphemerals: Seq[TypeDef.DTO],
-                              interfaceEphemeralIndex: Map[InterfaceId, TypeDef.DTO],
-                              interfaceEphemeralsReversed: Map[DTOId, InterfaceId],
-                              dtoEphemerals: Seq[TypeDef.Interface],
-                              dtoEphemeralIndex: Map[DTOId, TypeDef.Interface],
-                              services: Map[ServiceId, Service],
-                              serviceEphemerals: Seq[TypeDef],
-                              buzzers: Map[BuzzerId, Buzzer],
-                              buzzerEphemerals: Seq[TypeDef],
-                            ) extends TypeCollectionData
-
-object TypeCollectionDTO {
-  def apply(data: TypeCollectionData): TypeCollectionDTO = new TypeCollectionDTO(
-    data.all,
-    data.structures,
-    data.interfaceEphemerals,
-    data.interfaceEphemeralIndex,
-    data.interfaceEphemeralsReversed,
-    data.dtoEphemerals,
-    data.dtoEphemeralIndex,
-    data.services,
-    data.serviceEphemerals,
-    data.buzzers,
-    data.buzzerEphemerals,
-  )
 }

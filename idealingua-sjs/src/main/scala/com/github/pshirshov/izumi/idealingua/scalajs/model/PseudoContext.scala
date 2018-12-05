@@ -1,4 +1,4 @@
-package com.github.pshirshov.izumi.idealingua.scalajs
+package com.github.pshirshov.izumi.idealingua.scalajs.model
 
 import com.github.pshirshov.izumi.idealingua.il.loader.{FilesystemEnumerator, ModelLoaderContextImpl}
 

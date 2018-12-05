@@ -1,7 +1,11 @@
 package com.github.pshirshov.izumi.idealingua.scalajs
 
-import com.github.pshirshov.izumi.idealingua.model.loader.LoadedDomain
+import com.github.pshirshov.izumi.idealingua.il.parser.{IDLParser, IDLParserContext}
+import com.github.pshirshov.izumi.idealingua.il.renderer.IDLRenderer
+import com.github.pshirshov.izumi.idealingua.model.il.ast.typed.DomainDefinition
+import com.github.pshirshov.izumi.idealingua.model.loader.{FSPath, LoadedDomain}
 import com.github.pshirshov.izumi.idealingua.model.publishing.BuildManifest
+import com.github.pshirshov.izumi.idealingua.scalajs.model.{CompilationResult, LoadedDomainDTO, LoadedModelsDTO, PseudoContext}
 import com.github.pshirshov.izumi.idealingua.translator.{TypespaceTranslatorFacade, _}
 import upickle.default._
 
@@ -9,15 +13,6 @@ import scala.scalajs.js
 import scala.scalajs.js.JSON
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 
-sealed trait CompilationResult
-
-object CompilationResult {
-
-  final case class FailedToLoad(failure: LoadedDomainDTO.Failure) extends CompilationResult
-
-  final case class Success(modules: Map[String, String]) extends CompilationResult
-
-}
 
 @JSExportTopLevel("Idealingua")
 object IdealinguaJSExport extends IdealinguaJSFacade {
@@ -57,18 +52,31 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
     JSON.parse(asJson).asInstanceOf[js.Object]
   }
 
-  private def getExt(lang: IDLLanguage, filter: List[String]): Seq[TranslatorExtension] = {
-    val all = TypespaceTranslatorFacade.extensions(lang)
-    val negative = filter.filter(_.startsWith("-")).map(_.substring(1)).map(ExtensionId).toSet
-    all.filterNot(e => negative.contains(e.id))
-  }
-
   @JSExport
   def parsePseudoFS(fs: js.Dictionary[String]): js.Object = {
     val models = new PseudoContext(fs.toMap).loader.load()
     val asDTO = LoadedModelsDTO(models)
     val asJson = write(asDTO)
     JSON.parse(asJson).asInstanceOf[js.Object]
+  }
+
+  @JSExport
+  def prettyPrintDomains(fs: js.Dictionary[String]): js.Object = {
+    val models = new PseudoContext(fs.toMap).loader.load()
+    val printed = models.successful.map {
+      d =>
+        d.path -> new IDLRenderer(d.typespace.domain).render()
+    }
+
+    val asJson = write(printed)
+    JSON.parse(asJson).asInstanceOf[js.Object]
+  }
+
+
+  private def getExt(lang: IDLLanguage, filter: List[String]): Seq[TranslatorExtension] = {
+    val all = TypespaceTranslatorFacade.extensions(lang)
+    val negative = filter.filter(_.startsWith("-")).map(_.substring(1)).map(ExtensionId).toSet
+    all.filterNot(e => negative.contains(e.id))
   }
 
 }
