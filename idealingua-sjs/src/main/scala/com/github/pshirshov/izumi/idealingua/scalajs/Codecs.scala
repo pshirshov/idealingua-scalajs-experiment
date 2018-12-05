@@ -91,7 +91,9 @@ object Codecs {
 
 
   implicit def rwInputPosition: RW[InputPosition] = macroRW
+
   implicit def rwInputPositionDefined: RW[InputPosition.Defined] = macroRW
+
   implicit def rwInputPositionUndefined: RW[InputPosition.Undefined.type] = macroRW
 
   implicit def rIssue: Reader[Issue] = macroR
@@ -99,11 +101,14 @@ object Codecs {
   case class ExtendedIssue(issue: Issue, repr: String)
 
   implicit def wExtendedIssue: Writer[ExtendedIssue] = {
-    implicit def justIssue : RW[Issue] = macroRW[Issue]
+    implicit def justIssue: RW[Issue] = macroRW[Issue]
+
     macroRW
   }
-  implicit def rw37: Writer[Issue] = writer[ExtendedIssue].comap[Issue](i => ExtendedIssue(i, i.toString))
 
+  implicit def rw37: Writer[Issue] = {
+    writer[ExtendedIssue].comap[Issue](i => ExtendedIssue(i, i.toString))
+  }
 
   implicit def rw38: RW[Issue.AmbigiousAdtMember] = macroRW
 
@@ -184,19 +189,30 @@ object Codecs {
 
   implicit def rw120: RW[Super] = macroRW
 
-  implicit def rwTypedValue: RW[typed.Value] = macroRW
-  implicit def rwTypedValue0: RW[typed.Value.Typed] = macroRW
-  implicit def rwTypedValue1: RW[typed.Value.CMap] = macroRW
-  implicit def rwTypedValue2: RW[typed.Value.CTyped] = macroRW
-  implicit def rwTypedValue3: RW[typed.Value.CTypedList] = macroRW
-  implicit def rwTypedValue4: RW[typed.Value.CTypedObject] = macroRW
+  implicit def rwTypedValue: RW[typed.ConstValue] = macroRW
 
-  implicit def rwTypedValue5: RW[typed.Value.CList] = macroRW
-  implicit def rwTypedValue6: RW[typed.Value.CInt] = macroRW
-  implicit def rwTypedValue7: RW[typed.Value.CLong] = macroRW
-  implicit def rwTypedValue8: RW[typed.Value.CBool] = macroRW
-  implicit def rwTypedValue9: RW[typed.Value.CFloat] = macroRW
-  implicit def rwTypedValue10: RW[typed.Value.CString] = macroRW
+  implicit def rwTypedValue0: RW[typed.ConstValue.Typed] = macroRW
+
+  implicit def rwTypedValue1: RW[typed.ConstValue.CMap] = macroRW
+
+  implicit def rwTypedValue2: RW[typed.ConstValue.CTyped] = macroRW
+
+  implicit def rwTypedValue3: RW[typed.ConstValue.CTypedList] = macroRW
+
+  implicit def rwTypedValue4: RW[typed.ConstValue.CTypedObject] = macroRW
+
+  implicit def rwTypedValue5: RW[typed.ConstValue.CList] = macroRW
+
+  implicit def rwTypedValue6: RW[typed.ConstValue.CInt] = macroRW
+
+  implicit def rwTypedValue7: RW[typed.ConstValue.CLong] = macroRW
+
+  implicit def rwTypedValue8: RW[typed.ConstValue.CBool] = macroRW
+
+  implicit def rwTypedValue9: RW[typed.ConstValue.CFloat] = macroRW
+
+  implicit def rwTypedValue10: RW[typed.ConstValue.CString] = macroRW
+
 
   implicit def rwAnno: RW[Anno] = macroRW
 
@@ -212,26 +228,34 @@ object Codecs {
 
   implicit def rw52: RW[LoadedDomainDTO] = macroRW
 
-  //  implicit def rw200: RW[UntypedCompilerOptions] = macroRW
-//  implicit def rw200: RW[IDLResult] = macroRW
-//  implicit def rw202: RW[IDLSuccess] = macroRW
-
   implicit def rw201: RW[IDLLanguage] = macroRW
+
   implicit def rw204: RW[ProvidedRuntime] = macroRW
+
   implicit def rw205: RW[Module] = macroRW
+
   implicit def rw206: RW[ModuleId] = macroRW
 
   implicit def rw211: RW[ManifestDependency] = macroRW
+
   implicit def rw212: RW[Publisher] = macroRW
+
   implicit def rw213: RW[TypeScriptModuleSchema] = macroRW
+
   implicit def rw214: RW[ScalaBuildManifest] = macroRW
+
   implicit def rw215: RW[TypeScriptBuildManifest] = macroRW
+
   implicit def rw216: RW[TypeScriptBuildManifest] = macroRW
+
   implicit def rw217: RW[GoLangBuildManifest] = macroRW
+
   implicit def rw218: RW[CSharpBuildManifest] = macroRW
 
   implicit def rw250: RW[CompilationResult] = macroRW
+
   implicit def rw251: RW[CompilationResult.FailedToLoad] = macroRW
+
   implicit def rw252: RW[CompilationResult.Success] = macroRW
 
 
