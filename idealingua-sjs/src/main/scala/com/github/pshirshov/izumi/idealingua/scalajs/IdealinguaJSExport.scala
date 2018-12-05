@@ -1,9 +1,7 @@
 package com.github.pshirshov.izumi.idealingua.scalajs
 
-import com.github.pshirshov.izumi.idealingua.il.parser.{IDLParser, IDLParserContext}
 import com.github.pshirshov.izumi.idealingua.il.renderer.IDLRenderer
-import com.github.pshirshov.izumi.idealingua.model.il.ast.typed.DomainDefinition
-import com.github.pshirshov.izumi.idealingua.model.loader.{FSPath, LoadedDomain}
+import com.github.pshirshov.izumi.idealingua.model.loader.LoadedDomain
 import com.github.pshirshov.izumi.idealingua.model.publishing.BuildManifest
 import com.github.pshirshov.izumi.idealingua.scalajs.model.{CompilationResult, LoadedDomainDTO, LoadedModelsDTO, PseudoContext}
 import com.github.pshirshov.izumi.idealingua.translator.{TypespaceTranslatorFacade, _}
