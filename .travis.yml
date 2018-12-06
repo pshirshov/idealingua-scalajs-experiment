@@ -15,6 +15,7 @@ before_install:
 - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
 - npm whoami
 script:
+- sbt clean test
 - sbt clean fullOptJS::webpack
 after_success:
   - json -I -f $TARGET -e 'delete this.private'

@@ -1,12 +1,14 @@
 package com.github.pshirshov.izumi.idealingua.scalajs.model
 
 import com.github.pshirshov.izumi.idealingua.model.common.DomainId
-import com.github.pshirshov.izumi.idealingua.model.loader.{FSPath, LoadedDomain}
-import com.github.pshirshov.izumi.idealingua.model.typespace.{Issue, TypespaceData}
+import com.github.pshirshov.izumi.idealingua.model.loader.{FSPath, LoadedDomain, RefResolverIssue, TyperIssue}
+import com.github.pshirshov.izumi.idealingua.model.typespace.{TypespaceData, TypespaceVerificationIssue}
 
 sealed trait LoadedDomainDTO
 
 object LoadedDomainDTO {
+
+  final case class Success(path: FSPath, typespace: TypespaceData) extends LoadedDomainDTO
 
   sealed trait Failure extends LoadedDomainDTO
 
@@ -15,16 +17,27 @@ object LoadedDomainDTO {
       failure match {
         case LoadedDomain.ParsingFailed(path, message) =>
           LoadedDomainDTO.ParsingFailed(path, message)
-        case LoadedDomain.TypingFailed(path, domain, issues) =>
-          LoadedDomainDTO.TypingFailed(path, domain, issues)
+
+        case LoadedDomain.TyperFailed(path, domain, issues) =>
+          LoadedDomainDTO.TyperFailed(path, domain, issues)
+
+        case LoadedDomain.VerificationFailed(path, domain, issues) =>
+          LoadedDomainDTO.VerificationFailed(path, domain, issues)
+
+        case LoadedDomain.ResolutionFailed(path, domain, issues) =>
+          LoadedDomainDTO.ResolutionFailed(path, domain, issues)
+
       }
     }
   }
 
-  final case class Success(path: FSPath, typespace: TypespaceData) extends LoadedDomainDTO
 
   final case class ParsingFailed(path: FSPath, message: String) extends Failure
 
-  final case class TypingFailed(path: FSPath, domain: DomainId, issues: List[Issue]) extends Failure
+  final case class VerificationFailed(path: FSPath, domain: DomainId, issues: List[TypespaceVerificationIssue]) extends Failure
+
+  final case class ResolutionFailed(path: FSPath, domain: DomainId, issues: List[RefResolverIssue]) extends Failure
+
+  final case class TyperFailed(path: FSPath, domain: DomainId, issues: List[TyperIssue]) extends Failure
 
 }

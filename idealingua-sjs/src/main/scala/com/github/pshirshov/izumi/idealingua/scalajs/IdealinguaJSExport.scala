@@ -15,7 +15,7 @@ import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 @JSExportTopLevel("Idealingua")
 object IdealinguaJSExport extends IdealinguaJSFacade {
 
-  import Codecs._
+  import com.github.pshirshov.izumi.idealingua.scalajs.codecs.Codecs._
 
   @JSExport
   def compilePseudoFS(fs: js.Dictionary[String], languageId: String, providedRuntime: js.Dictionary[js.Any], manifest: js.Dictionary[js.Any], extensions: js.Array[String]): js.Object = {

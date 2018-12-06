@@ -8,7 +8,7 @@ import upickle.default._
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.{Dictionary, JSON}
-import Codecs._
+import com.github.pshirshov.izumi.idealingua.scalajs.codecs.Codecs._
 import ujson.Value
 
 object IdealinguaApp {
