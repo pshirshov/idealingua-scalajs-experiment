@@ -10,6 +10,8 @@ import upickle.default.{macroRW, ReadWriter => RW, _}
 
 
 trait MainModelCodec extends Types {
+  implicit def rwDomainMetadata: RW[DomainMetadata] = macroRW
+
   implicit def rw56: RW[DomainDefinition] = macroRW
 
   implicit def rw100: RW[TypeDef] = macroRW

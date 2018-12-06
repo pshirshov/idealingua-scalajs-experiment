@@ -1,6 +1,6 @@
 package com.github.pshirshov.izumi.idealingua.scalajs
 
-import com.github.pshirshov.izumi.idealingua.il.renderer.IDLRenderer
+import com.github.pshirshov.izumi.idealingua.il.renderer.{IDLRenderer, IDLRenderingOptions}
 import com.github.pshirshov.izumi.idealingua.model.loader.LoadedDomain
 import com.github.pshirshov.izumi.idealingua.model.publishing.BuildManifest
 import com.github.pshirshov.izumi.idealingua.scalajs.model.{CompilationResult, LoadedDomainDTO, LoadedModelsDTO, PseudoContext}
@@ -63,7 +63,7 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
     val models = new PseudoContext(fs.toMap).loader.load()
     val printed = models.successful.map {
       d =>
-        d.path -> new IDLRenderer(d.typespace.domain).render()
+        d.path -> new IDLRenderer(d.typespace.domain, IDLRenderingOptions(expandIncludes = false)).render()
     }
 
     val asJson = write(printed)
