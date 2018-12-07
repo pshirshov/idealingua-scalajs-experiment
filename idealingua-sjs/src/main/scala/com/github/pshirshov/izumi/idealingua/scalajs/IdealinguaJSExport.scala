@@ -52,6 +52,7 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
     }
 
     val asJson: String = write(result)
+    println(asJson)
     JSON.parse(asJson).asInstanceOf[js.Object]
   }
 
