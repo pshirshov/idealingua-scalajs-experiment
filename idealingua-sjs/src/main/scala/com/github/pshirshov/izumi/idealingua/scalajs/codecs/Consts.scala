@@ -1,7 +1,8 @@
 package com.github.pshirshov.izumi.idealingua.scalajs.codecs
 
 import com.github.pshirshov.izumi.idealingua.model.il.ast.typed
-import upickle.default.{macroRW, ReadWriter => RW, _}
+import Better.{macroRW, ReadWriter => RW, _}
+
 
 
 trait Consts extends Identifiers {

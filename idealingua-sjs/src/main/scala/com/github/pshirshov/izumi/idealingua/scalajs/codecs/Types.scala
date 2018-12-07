@@ -3,7 +3,8 @@ package com.github.pshirshov.izumi.idealingua.scalajs.codecs
 import com.github.pshirshov.izumi.idealingua.model.il.ast.InputPosition
 import com.github.pshirshov.izumi.idealingua.model.il.ast.typed._
 import com.github.pshirshov.izumi.idealingua.model.loader.FSPath
-import upickle.default.{macroRW, ReadWriter => RW, _}
+import Better.{macroRW, ReadWriter => RW, _}
+
 
 
 trait Types extends Consts {

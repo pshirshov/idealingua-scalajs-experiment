@@ -2,7 +2,7 @@ package com.github.pshirshov.izumi.idealingua.scalajs.codecs
 
 import com.github.pshirshov.izumi.idealingua.model.common.TypeId._
 import com.github.pshirshov.izumi.idealingua.model.common._
-import upickle.default.{macroRW, ReadWriter => RW, _}
+import Better.{macroRW, ReadWriter => RW, _}
 
 trait Identifiers {
   implicit def rw15: RW[TypePath] = macroRW

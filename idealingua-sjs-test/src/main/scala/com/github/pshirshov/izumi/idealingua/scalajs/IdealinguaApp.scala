@@ -3,12 +3,12 @@ package com.github.pshirshov.izumi.idealingua.scalajs
 import com.github.pshirshov.izumi.idealingua.model.output.{Module, ModuleId}
 import com.github.pshirshov.izumi.idealingua.translator.ProvidedRuntime
 import org.querki.jquery._
-import upickle.default._
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.{Dictionary, JSON}
 import com.github.pshirshov.izumi.idealingua.scalajs.codecs.Codecs._
+import com.github.pshirshov.izumi.idealingua.scalajs.codecs.Better._
 import ujson.Value
 
 object IdealinguaApp {

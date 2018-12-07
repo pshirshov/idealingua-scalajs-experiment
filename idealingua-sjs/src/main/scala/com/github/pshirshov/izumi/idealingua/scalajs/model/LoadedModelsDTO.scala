@@ -7,11 +7,11 @@ case class LoadedModelsDTO(loaded: Seq[LoadedDomainDTO])
 
 object LoadedModelsDTO {
   def apply(models: LoadedModels): LoadedModelsDTO = {
-    LoadedModelsDTO(models.loaded.map {
+    LoadedModelsDTO(models.all.map {
       case failure: LoadedDomain.Failure =>
         LoadedDomainDTO.Failure(failure)
-      case LoadedDomain.Success(path, typespace) =>
-        LoadedDomainDTO.Success(path, TypespaceDTO(typespace))
+      case LoadedDomain.Success(path, typespace, warnings) =>
+        LoadedDomainDTO.Success(path, TypespaceDTO(typespace), warnings)
     })
   }
 }

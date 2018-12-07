@@ -6,7 +6,8 @@ import com.github.pshirshov.izumi.idealingua.model.output.{Module, ModuleId}
 import com.github.pshirshov.izumi.idealingua.model.publishing.manifests._
 import com.github.pshirshov.izumi.idealingua.model.publishing.{ManifestDependency, Publisher}
 import com.github.pshirshov.izumi.idealingua.translator.{IDLLanguage, ProvidedRuntime}
-import upickle.default.{macroRW, ReadWriter => RW, _}
+import Better.{macroRW, ReadWriter => RW, _}
+
 
 
 trait MainModelCodec extends Types {

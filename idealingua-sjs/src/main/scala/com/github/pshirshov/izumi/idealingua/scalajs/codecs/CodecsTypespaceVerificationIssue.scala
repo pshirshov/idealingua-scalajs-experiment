@@ -1,47 +1,87 @@
 package com.github.pshirshov.izumi.idealingua.scalajs.codecs
 
-import com.github.pshirshov.izumi.idealingua.model.typespace.{MissingDependency, TypespaceVerificationIssue}
-import upickle.default.{macroRW, ReadWriter => RW, _}
+import com.github.pshirshov.izumi.idealingua.model.loader.{LoadedDomain, ModelParsingResult}
+import com.github.pshirshov.izumi.idealingua.model.problems._
+import com.github.pshirshov.izumi.idealingua.model.typespace.verification.MissingDependency
+import com.github.pshirshov.izumi.idealingua.scalajs.codecs.Better.{macroRW, ReadWriter => RW}
 
 trait CodecsTypespaceVerificationIssue extends Types {
-  implicit def rIssue: Reader[TypespaceVerificationIssue] = macroR
-
-  case class ExtendedIssue(issue: TypespaceVerificationIssue, repr: String)
-
-  object ExtendedIssue {
-    implicit def wExtendedIssue: Writer[ExtendedIssue] = {
-      implicit def justIssue: RW[TypespaceVerificationIssue] = macroRW[TypespaceVerificationIssue]
-
-      macroRW
-    }
-  }
+  implicit def rwIDLDiagnostics: RW[IDLDiagnostics] = macroRW
 
 
-  implicit def rw37: Writer[TypespaceVerificationIssue] = {
-    writer[ExtendedIssue].comap[TypespaceVerificationIssue](i => ExtendedIssue(i, i.toString))
-  }
+  implicit def rwIDLError: RW[IDLError] = macroRW
 
-  implicit def rw38: RW[TypespaceVerificationIssue.AmbigiousAdtMember] = macroRW
 
-  implicit def rw39: RW[TypespaceVerificationIssue.CyclicInheritance] = macroRW
+  implicit def rwIDLWarning: RW[IDLWarning] = macroRW
 
-  implicit def rw40: RW[TypespaceVerificationIssue.CyclicUsage] = macroRW
+  implicit def rwTypespaceWarning: RW[TypespaceWarning] = macroRW
 
-  implicit def rw41: RW[TypespaceVerificationIssue.DuplicateAdtElements] = macroRW
+  implicit def rwTypespaceWarning_Message: RW[TypespaceWarning.Message] = macroRW
 
-  implicit def rw42: RW[TypespaceVerificationIssue.DuplicateEnumElements] = macroRW
 
-  implicit def rw43: RW[TypespaceVerificationIssue.MissingDependencies] = macroRW
+  implicit def rwTyperError: RW[TyperError] = macroRW
 
-  implicit def rw44: RW[TypespaceVerificationIssue.NoncapitalizedTypename] = macroRW
+  implicit def rwTyperError_TyperException: RW[TyperError.TyperException] = macroRW
 
-  implicit def rw45: RW[TypespaceVerificationIssue.PrimitiveAdtMember] = macroRW
 
-  implicit def rw46: RW[TypespaceVerificationIssue.ReservedTypenamePrefix] = macroRW
+  implicit def rwLoadedDomain_Failure: RW[LoadedDomain.Failure] = macroRW
 
-  implicit def rw47: RW[TypespaceVerificationIssue.ShortName] = macroRW
+  implicit def rwLoadedDomain_Failure_DiagnosableFailure: RW[LoadedDomain.DiagnosableFailure] = macroRW
 
-  implicit def rw48: RW[TypespaceVerificationIssue.VerificationException] = macroRW
+  implicit def rwLoadedDomain_Failure_ParsingFailed: RW[LoadedDomain.ParsingFailed] = macroRW
+
+  implicit def rwLoadedDomain_Failure_TyperFailed: RW[LoadedDomain.TyperFailed] = macroRW
+
+  implicit def rwLoadedDomain_Failure_ResolutionFailed: RW[LoadedDomain.ResolutionFailed] = macroRW
+
+  implicit def rwLoadedDomain_Failure_VerificationFailed: RW[LoadedDomain.VerificationFailed] = macroRW
+
+  implicit def rwLoadedDomain_Failure_PostVerificationFailure: RW[LoadedDomain.PostVerificationFailure] = macroRW
+
+
+  implicit def rw_ModelParsingResult_Failure: RW[ModelParsingResult.Failure] = macroRW
+
+  implicit def rwPostError: RW[PostError] = macroRW
+
+  implicit def rwPostError_DuplicatedDomains: RW[PostError.DuplicatedDomains] = macroRW
+
+
+  implicit def rw_RefResolverIssue: RW[RefResolverIssue] = macroRW
+
+  implicit def rw_RefResolverIssue_MissingImport: RW[RefResolverIssue.MissingImport] = macroRW
+
+  implicit def rw_RefResolverIssue_MissingInclusion: RW[RefResolverIssue.MissingInclusion] = macroRW
+
+  implicit def rw_RefResolverIssue_UnparseableInclusion: RW[RefResolverIssue.UnparseableInclusion] = macroRW
+
+  implicit def rw_RefResolverIssue_UnresolvableImport: RW[RefResolverIssue.UnresolvableImport] = macroRW
+
+  implicit def rw_RefResolverIssue_TyperException: RW[RefResolverIssue.DuplicatedDomainsDuringLookup] = macroRW
+
+
+  implicit def rw_TypespaceError: RW[TypespaceError] = macroRW
+
+  implicit def rw38: RW[TypespaceError.AmbigiousAdtMember] = macroRW
+
+  implicit def rw39: RW[TypespaceError.CyclicInheritance] = macroRW
+
+  implicit def rw40: RW[TypespaceError.CyclicUsage] = macroRW
+
+  implicit def rw41: RW[TypespaceError.DuplicateAdtElements] = macroRW
+
+  implicit def rw42: RW[TypespaceError.DuplicateEnumElements] = macroRW
+
+  implicit def rw43: RW[TypespaceError.MissingDependencies] = macroRW
+
+  implicit def rw44: RW[TypespaceError.NoncapitalizedTypename] = macroRW
+
+  implicit def rw45: RW[TypespaceError.PrimitiveAdtMember] = macroRW
+
+  implicit def rw46: RW[TypespaceError.ReservedTypenamePrefix] = macroRW
+
+  implicit def rw47: RW[TypespaceError.ShortName] = macroRW
+
+  implicit def rw48: RW[TypespaceError.VerificationException] = macroRW
 
 
   implicit def rw30: RW[MissingDependency] = macroRW
