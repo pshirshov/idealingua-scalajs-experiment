@@ -4,13 +4,12 @@ import com.github.pshirshov.izumi.idealingua.model.problems.{IDLError, IDLWarnin
 import upickle.core.Visitor
 
 object Better extends upickle.AttributeTagged {
-
   override def taggedWrite[T, R](w: CaseW[T], tag: String, out: Visitor[_, R], v: T): R = {
     v match {
       case error: IDLError =>
-        withReprTaggedWriter[T, R](w, tag, out, error, error.toString)
+        withReprTaggedWriter[T, R](w, tag, out, v, error.toString)
       case warning: IDLWarning =>
-        withReprTaggedWriter[T, R](w, tag, out, warning, warning.toString)
+        withReprTaggedWriter[T, R](w, tag, out, v, warning.toString)
       case o =>
         super.taggedWrite[T, R](w, tag, out, o)
     }

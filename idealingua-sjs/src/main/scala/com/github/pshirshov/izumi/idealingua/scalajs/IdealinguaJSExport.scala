@@ -6,7 +6,7 @@ import com.github.pshirshov.izumi.idealingua.il.renderer.{IDLRenderer, IDLRender
 import com.github.pshirshov.izumi.idealingua.model.loader.LoadedDomain
 import com.github.pshirshov.izumi.idealingua.model.publishing.BuildManifest
 import com.github.pshirshov.izumi.idealingua.model.typespace.verification.VerificationRule
-import com.github.pshirshov.izumi.idealingua.scalajs.codecs.Better
+import com.github.pshirshov.izumi.idealingua.scalajs.codecs.Better._
 import com.github.pshirshov.izumi.idealingua.scalajs.model.{CompilationResult, LoadedModelsDTO}
 import com.github.pshirshov.izumi.idealingua.translator._
 
@@ -18,7 +18,6 @@ import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 object IdealinguaJSExport extends IdealinguaJSFacade {
 
   import com.github.pshirshov.izumi.idealingua.scalajs.codecs.Codecs._
-  import Better._
 
   @JSExport
   def compilePseudoFS(fs: js.Dictionary[String], languageId: String, providedRuntime: js.Dictionary[js.Any], manifest: js.Dictionary[js.Any], extensions: js.Array[String]): js.Object = {
@@ -45,10 +44,13 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
       case LoadedDomain.Success(path, typespace, warnings) =>
         val options = UntypedCompilerOptions(language, translatorExtensions, withRuntime = true, manifest, rt)
         val modules = new TypespaceCompilerBaseFacade(typespace, options).compile()
-        CompilationResult.Success(modules.map {
-          m =>
-            (m.id.path.mkString("/"), m.content)
-        }.toMap)
+        val asMap = modules
+          .map {
+            m =>
+              (m.id.path.mkString("/"), m.content)
+          }
+          .toMap
+        CompilationResult.Success(asMap, warnings)
     }
 
     val asJson: String = write(result)
@@ -60,7 +62,7 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
   def parsePseudoFS(fs: js.Dictionary[String]): js.Object = {
     val resolved = load(fs.toMap, TypespaceCompilerBaseFacade.descriptors.flatMap(_.rules))
     val asDTO = LoadedModelsDTO(resolved)
-    val asJson = Better.write(asDTO)
+    val asJson = write(asDTO)
     JSON.parse(asJson).asInstanceOf[js.Object]
   }
 
@@ -73,7 +75,7 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
         d.path -> new IDLRenderer(d.typespace.domain, IDLRenderingOptions(expandIncludes = false)).render()
     }
 
-    val asJson = Better.write(printed)
+    val asJson = write(printed)
     JSON.parse(asJson).asInstanceOf[js.Object]
   }
 
