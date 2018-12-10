@@ -24,7 +24,7 @@ lazy val `idealingua-sjs` = (project in file("idealingua-sjs"))
     , libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6"
     , libraryDependencies += "org.scala-lang.modules" %%% "scala-collection-compat" % "0.2.1"
     , libraryDependencies += "com.github.pshirshov.izumi.r2" %%% "idealingua-transpilers" % "0.7.0-SNAPSHOT"
-
+    , webpackNodeArgs in Compile += Seq("--max_old_space_size=4096")
     // fails. Sbt bug?
 //    , additionalNpmConfig in Compile ++= Map(
 //      "name" -> str(name.value),
@@ -44,13 +44,12 @@ lazy val `idealingua-sjs-test` = (project in file("idealingua-sjs-test"))
   .settings(
     libraryDependencies += "com.lihaoyi" %%% "utest" % "0.6.3" % "test",
     libraryDependencies += "org.querki" %%% "jquery-facade" % "1.2",
-
-    jsDependencies += "org.webjars" % "jquery" % "2.2.1" / "jquery.js" minified "jquery.min.js",
-
     testFrameworks += new TestFramework("utest.runner.Framework"),
     scalaJSUseMainModuleInitializer := true,
     skip in packageJSDependencies := false,
-    jsEnv := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv()
+
+    jsDependencies += "org.webjars" % "jquery" % "2.2.1" / "jquery.js" minified "jquery.min.js",
+    jsEnv := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv() //org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv.Config().withArgs(List()))
   )
 
 lazy val root = (project in file("."))
