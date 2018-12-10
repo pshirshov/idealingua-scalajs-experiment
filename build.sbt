@@ -33,9 +33,9 @@ lazy val `idealingua-sjs` = (project in file("idealingua-sjs"))
       "license" -> str("EULA"),
       "main" -> str("idealingua-sjs-opt.js"),
       "runkitExample" -> str(
-        s"""var idl = require(\"idealingua-js-facade\");
+        s"""var idl = require("idealingua-js-facade");
            |
-           |idl.Idealingua.parsePseudoFS({\"idltest\/enums.domain\":\"\\ndomain idltest.enums\\n\\nenum ShortSyntaxEnum = Element1 | Element2\\n    \"});
+           |idl.Idealingua.parsePseudoFS({"idltest/enums.domain": "\\ndomain idltest.enums\\n\\nenum ShortSyntaxEnum = Element1 | Element2\\n    \"});
            |
          """.stripMargin),
       "repository" -> obj(
