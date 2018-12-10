@@ -47,7 +47,7 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
         val asMap = modules
           .map {
             m =>
-              (m.id.path.mkString("/"), m.content)
+              ((m.id.path :+ m.id.name).mkString("/"), m.content)
           }
           .toMap
         CompilationResult.Success(asMap, warnings)
