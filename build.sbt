@@ -13,7 +13,7 @@ version in ThisBuild := {
   if (sys.env.contains("TRAVIS_BUILD_NUMBER")) {
     s"$pversion.${sys.env("TRAVIS_BUILD_NUMBER")}"
   } else {
-    pversion
+    s"$pversion.0"
   }
 }
 
@@ -26,16 +26,23 @@ lazy val `idealingua-sjs` = (project in file("idealingua-sjs"))
     , libraryDependencies += "com.github.pshirshov.izumi.r2" %%% "idealingua-transpilers" % "0.7.0-SNAPSHOT"
     , webpackNodeArgs in Compile ++= Seq("--max_old_space_size=4096")
     // fails. Sbt bug?
-//    , additionalNpmConfig in Compile ++= Map(
-//      "name" -> str(name.value),
-//      "version" -> str(version.value),
-//      "description" -> str("Idealingua parser and typer"),
-//      "license" -> str("BSD-3-Clause"),
-//      "repository" -> obj(
-//        "type" -> str("git"),
-//        "url" -> str("https://github.com/pshirshov/idealingua-scalajs-experiment")
-//      )
-//    )
+    , additionalNpmConfig in Compile ++= Map(
+      "name" -> str("idealingua-js-facade"),
+      "version" -> str(version.value),
+      "description" -> str("Idealingua parser and typer"),
+      "license" -> str("EULA"),
+      "main" -> str("idealingua-sjs-opt.js"),
+      "runkitExample" -> str(
+        s"""var idl = require(\"idealingua-js-facade\");
+           |
+           |idl.Idealingua.parsePseudoFS({\"idltest\/enums.domain\":\"\\ndomain idltest.enums\\n\\nenum ShortSyntaxEnum = Element1 | Element2\\n    \"});
+           |
+         """.stripMargin),
+      "repository" -> obj(
+        "type" -> str("git"),
+        "url" -> str("https://github.com/pshirshov/idealingua-scalajs-experiment")
+      )
+    )
   )
 
 lazy val `idealingua-sjs-test` = (project in file("idealingua-sjs-test"))
