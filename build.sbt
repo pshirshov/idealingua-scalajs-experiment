@@ -24,7 +24,7 @@ lazy val `idealingua-sjs` = (project in file("idealingua-sjs"))
     , libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6"
     , libraryDependencies += "org.scala-lang.modules" %%% "scala-collection-compat" % "0.2.1"
     , libraryDependencies += "com.github.pshirshov.izumi.r2" %%% "idealingua-transpilers" % "0.7.0-SNAPSHOT"
-    , webpackNodeArgs in Compile += Seq("--max_old_space_size=4096")
+    , webpackNodeArgs in Compile ++= Seq("--max_old_space_size=4096")
     // fails. Sbt bug?
 //    , additionalNpmConfig in Compile ++= Map(
 //      "name" -> str(name.value),
