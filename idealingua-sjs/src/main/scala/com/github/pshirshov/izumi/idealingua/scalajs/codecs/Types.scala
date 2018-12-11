@@ -2,6 +2,7 @@ package com.github.pshirshov.izumi.idealingua.scalajs.codecs
 
 import com.github.pshirshov.izumi.idealingua.model.il.ast.InputPosition
 import com.github.pshirshov.izumi.idealingua.model.il.ast.typed._
+import com.github.pshirshov.izumi.idealingua.model.il.ast.raw
 import com.github.pshirshov.izumi.idealingua.model.loader.FSPath
 import Better.{macroRW, ReadWriter => RW, _}
 
@@ -35,5 +36,9 @@ trait Types extends Consts {
   implicit def rw24: RW[IdField.PrimitiveField] = macroRW
 
   implicit def rw25: RW[IdField.SubId] = macroRW
+
+  implicit def rw_raw_Inclusion: RW[raw.models.Inclusion] = macroRW
+
+  implicit def rw_Inclusion: RW[Inclusion] = macroRW
 
 }

@@ -2,6 +2,7 @@ import sbt.Keys.{libraryDependencies, resolvers, testFrameworks}
 import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport.npmDependencies
 import scalajsbundler.util.JSON._
 
+resolvers in ThisBuild += Resolver.defaultLocal
 resolvers in ThisBuild += Opts.resolver.sonatypeReleases
 resolvers in ThisBuild += Opts.resolver.sonatypeSnapshots
 

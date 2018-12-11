@@ -1,5 +1,6 @@
 package com.github.pshirshov.izumi.idealingua.scalajs.codecs
 
+import com.github.pshirshov.izumi.idealingua.model.il.ast.typed.Inclusion
 import com.github.pshirshov.izumi.idealingua.model.loader.{LoadedDomain, ModelParsingResult}
 import com.github.pshirshov.izumi.idealingua.model.problems._
 import com.github.pshirshov.izumi.idealingua.model.typespace.verification.MissingDependency
