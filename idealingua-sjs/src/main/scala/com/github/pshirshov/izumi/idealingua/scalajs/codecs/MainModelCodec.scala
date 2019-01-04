@@ -7,10 +7,15 @@ import com.github.pshirshov.izumi.idealingua.model.publishing.manifests._
 import com.github.pshirshov.izumi.idealingua.model.publishing.{ManifestDependency, Publisher}
 import com.github.pshirshov.izumi.idealingua.translator.{IDLLanguage, ProvidedRuntime}
 import Better.{macroRW, ReadWriter => RW, _}
+import com.github.pshirshov.izumi.idealingua.model.il.ast.raw.domains.{Import, ImportedId}
 
 
 
 trait MainModelCodec extends Types {
+  implicit def rwImportedId: RW[ImportedId] = macroRW
+
+  implicit def rwImport: RW[Import] = macroRW
+
   implicit def rwDomainMetadata: RW[DomainMetadata] = macroRW
 
   implicit def rw56: RW[DomainDefinition] = macroRW
@@ -91,8 +96,6 @@ trait MainModelCodec extends Types {
   implicit def rw214: RW[ScalaBuildManifest] = macroRW
 
   implicit def rw215: RW[TypeScriptBuildManifest] = macroRW
-
-  implicit def rw216: RW[TypeScriptBuildManifest] = macroRW
 
   implicit def rw217: RW[GoLangBuildManifest] = macroRW
 

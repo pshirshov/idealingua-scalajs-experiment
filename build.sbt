@@ -8,6 +8,8 @@ resolvers in ThisBuild += Opts.resolver.sonatypeSnapshots
 
 scalaVersion in ThisBuild := "2.12.8"
 
+scalacOptions in ThisBuild ++= Seq("-deprecation")
+
 val pversion = "0.1"
 
 version in ThisBuild := {

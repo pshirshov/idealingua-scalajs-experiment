@@ -4,7 +4,7 @@ import com.github.pshirshov.izumi.idealingua.il.loader
 import com.github.pshirshov.izumi.idealingua.il.loader.{ModelLoaderContextImpl, ModelResolver}
 import com.github.pshirshov.izumi.idealingua.il.renderer.{IDLRenderer, IDLRenderingOptions}
 import com.github.pshirshov.izumi.idealingua.model.loader.LoadedDomain
-import com.github.pshirshov.izumi.idealingua.model.publishing.BuildManifest
+import com.github.pshirshov.izumi.idealingua.model.publishing.manifests.{CSharpBuildManifest, GoLangBuildManifest, ScalaBuildManifest, TypeScriptBuildManifest}
 import com.github.pshirshov.izumi.idealingua.model.typespace.verification.VerificationRule
 import com.github.pshirshov.izumi.idealingua.scalajs.codecs.Better._
 import com.github.pshirshov.izumi.idealingua.scalajs.model.{CompilationResult, LoadedModelsDTO}
@@ -20,7 +20,7 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
   import com.github.pshirshov.izumi.idealingua.scalajs.codecs.Codecs._
 
   @JSExport
-  def compilePseudoFS(fs: js.Dictionary[String], languageId: String, providedRuntime: js.Dictionary[js.Any], manifest: js.Dictionary[js.Any], extensions: js.Array[String]): js.Object = {
+  def compilePseudoFS(fs: js.Dictionary[String], languageId: String, providedRuntime: js.Dictionary[js.Any], rawManifest: js.Dictionary[js.Any], extensions: js.Array[String]): js.Object = {
     val language = IDLLanguage.parse(languageId)
     val rules = TypespaceCompilerBaseFacade.descriptor(language).rules
     val resolved = load(fs.toMap, rules)
@@ -32,8 +32,12 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
       Some(read[ProvidedRuntime](JSON.stringify(providedRuntime)))
     }
 
-    val manifest: Option[BuildManifest] = None
-
+    val manifest = language match {
+      case IDLLanguage.Scala => readManifest(rawManifest, ScalaBuildManifest.default)
+      case IDLLanguage.Go => readManifest(rawManifest, GoLangBuildManifest.default)
+      case IDLLanguage.Typescript => readManifest(rawManifest, TypeScriptBuildManifest.default)
+      case IDLLanguage.CSharp => readManifest(rawManifest, CSharpBuildManifest.default)
+    }
 
     val translatorExtensions: Seq[TranslatorExtension] = getExt(language, extensions.toList)
 
@@ -42,8 +46,8 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
         CompilationResult.FailedToLoad(failure)
 
       case LoadedDomain.Success(path, typespace, warnings) =>
-        val options = UntypedCompilerOptions(language, translatorExtensions, withRuntime = true, manifest, rt)
-        val modules = new TypespaceCompilerBaseFacade(typespace, options).compile()
+        val options = UntypedCompilerOptions(language, translatorExtensions, manifest, withBundledRuntime = false, rt)
+        val modules = TypespaceCompilerBaseFacade.descriptor(language).make(typespace, options).translate().modules
         val asMap = modules
           .map {
             m =>
@@ -92,4 +96,12 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
     all.filterNot(e => negative.contains(e.id))
   }
 
+  private def readManifest[R : Reader](rawManifest: js.Dictionary[js.Any], default: R): R = {
+    if (rawManifest.isEmpty) {
+      default
+    } else {
+      val mfJson = JSON.stringify(rawManifest)
+      read[R](mfJson)
+    }
+  }
 }

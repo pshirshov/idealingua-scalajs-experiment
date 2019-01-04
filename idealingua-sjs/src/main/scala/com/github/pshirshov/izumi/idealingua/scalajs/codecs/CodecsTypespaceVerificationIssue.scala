@@ -1,6 +1,5 @@
 package com.github.pshirshov.izumi.idealingua.scalajs.codecs
 
-import com.github.pshirshov.izumi.idealingua.model.il.ast.typed.Inclusion
 import com.github.pshirshov.izumi.idealingua.model.loader.{LoadedDomain, ModelParsingResult}
 import com.github.pshirshov.izumi.idealingua.model.problems._
 import com.github.pshirshov.izumi.idealingua.model.typespace.verification.MissingDependency
@@ -18,6 +17,8 @@ trait CodecsTypespaceVerificationIssue extends Types {
   implicit def rwTypespaceWarning: RW[TypespaceWarning] = macroRW
 
   implicit def rwTypespaceWarning_Message: RW[TypespaceWarning.Message] = macroRW
+
+  implicit def rwTypespaceWarning_DomainInvolvedIntoCyclicImports: RW[TypespaceWarning.DomainInvolvedIntoCyclicImports] = macroRW
 
 
   implicit def rwTyperError: RW[TyperError] = macroRW
@@ -81,6 +82,9 @@ trait CodecsTypespaceVerificationIssue extends Types {
   implicit def rw46: RW[TypespaceError.ReservedTypenamePrefix] = macroRW
 
   implicit def rw47: RW[TypespaceError.ShortName] = macroRW
+
+  implicit def rw_TypespaceError_DomainInvolvedIntoCyclicImports: RW[TypespaceError.DomainInvolvedIntoCyclicImports] = macroRW
+
 
   implicit def rw48: RW[TypespaceError.VerificationException] = macroRW
 
