@@ -7,7 +7,7 @@ sealed trait CompilationResult
 
 object CompilationResult {
 
-  final case class FailedToLoad(failure: LoadedDomain.Failure) extends CompilationResult
+  final case class FailedToLoad(failure: Seq[LoadedDomain.Failure]) extends CompilationResult
 
   final case class Success(modules: Map[String, String], warnings: Vector[IDLWarning]) extends CompilationResult
 

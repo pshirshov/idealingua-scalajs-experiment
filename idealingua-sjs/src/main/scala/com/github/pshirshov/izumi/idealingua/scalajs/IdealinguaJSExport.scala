@@ -41,24 +41,29 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
 
     val translatorExtensions: Seq[TranslatorExtension] = getExt(language, extensions.toList)
 
-    val result: Seq[CompilationResult] = models.map {
-      case failure: LoadedDomain.Failure =>
-        CompilationResult.FailedToLoad(failure)
+    val success = models.collect {
+      case s: LoadedDomain.Success => s
+    }
 
-      case LoadedDomain.Success(path, typespace, warnings) =>
-        val options = UntypedCompilerOptions(language, translatorExtensions, manifest, withBundledRuntime = false, rt)
-        val modules = TypespaceCompilerBaseFacade.descriptor(language).make(typespace, options).translate().modules
-        val asMap = modules
-          .map {
-            m =>
-              ((m.id.path :+ m.id.name).mkString("/"), m.content)
-          }
-          .toMap
-        CompilationResult.Success(asMap, warnings)
+    val failures = models.collect {
+      case f: LoadedDomain.Failure => f
+    }
+
+    val result: CompilationResult = if (failures.nonEmpty) {
+      CompilationResult.FailedToLoad(failures)
+    } else {
+      val options = UntypedCompilerOptions(language, translatorExtensions, manifest, withBundledRuntime = false, rt)
+      val modules = new TypespaceCompilerBaseFacade(options).compile(success).modules
+      val asMap = modules
+        .map {
+          m =>
+            ((m.id.path :+ m.id.name).mkString("/"), m.content)
+        }
+        .toMap
+      CompilationResult.Success(asMap, success.flatMap(_.warnings))
     }
 
     val asJson: String = write(result)
-    println(asJson)
     JSON.parse(asJson).asInstanceOf[js.Object]
   }
 
