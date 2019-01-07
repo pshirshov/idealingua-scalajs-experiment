@@ -10,13 +10,13 @@ scalaVersion in ThisBuild := "2.12.8"
 
 scalacOptions in ThisBuild ++= Seq("-deprecation")
 
-val pversion = "0.1"
+val versionBase = "0.1.0"
 
 version in ThisBuild := {
   if (sys.env.contains("TRAVIS_BUILD_NUMBER")) {
-    s"$pversion.${sys.env("TRAVIS_BUILD_NUMBER")}"
+    s"$versionBase-build.${sys.env("TRAVIS_BUILD_NUMBER")}"
   } else {
-    s"$pversion.0"
+    s"$versionBase"
   }
 }
 
@@ -30,7 +30,7 @@ lazy val `idealingua-sjs` = (project in file("idealingua-sjs"))
     , webpackNodeArgs in Compile ++= Seq("--max_old_space_size=4096")
     // fails. Sbt bug?
     , additionalNpmConfig in Compile ++= Map(
-      "name" -> str("idealingua-js-facade"),
+      "name" -> str("@izumi-framework/idealingua-js-facade"),
       "version" -> str(version.value),
       "description" -> str("Idealingua parser and typer"),
       "license" -> str("EULA"),
