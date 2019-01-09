@@ -1,14 +1,14 @@
 package com.github.pshirshov.izumi.idealingua.scalajs.codecs
 
 import com.github.pshirshov.izumi.idealingua.model.common.StreamDirection
+import com.github.pshirshov.izumi.idealingua.model.il.ast.raw.domains.{Import, ImportedId}
 import com.github.pshirshov.izumi.idealingua.model.il.ast.typed._
 import com.github.pshirshov.izumi.idealingua.model.output.{Module, ModuleId}
+import com.github.pshirshov.izumi.idealingua.model.publishing.BuildManifest.ManifestDependency
+import com.github.pshirshov.izumi.idealingua.model.publishing.{BuildManifest, ProjectVersion, Publisher}
 import com.github.pshirshov.izumi.idealingua.model.publishing.manifests._
-import com.github.pshirshov.izumi.idealingua.model.publishing.{ManifestDependency, Publisher}
+import com.github.pshirshov.izumi.idealingua.scalajs.codecs.Better.{macroRW, ReadWriter => RW}
 import com.github.pshirshov.izumi.idealingua.translator.{IDLLanguage, ProvidedRuntime}
-import Better.{macroRW, ReadWriter => RW, _}
-import com.github.pshirshov.izumi.idealingua.model.il.ast.raw.domains.{Import, ImportedId}
-
 
 
 trait MainModelCodec extends Types {
@@ -91,9 +91,27 @@ trait MainModelCodec extends Types {
 
   implicit def rw212: RW[Publisher] = macroRW
 
-  implicit def rw213: RW[TypeScriptModuleSchema] = macroRW
+  implicit def rw_TypeScriptProjectLayout: RW[TypeScriptProjectLayout] = macroRW
+
+  implicit def rw_ScalaProjectLayout: RW[ScalaProjectLayout] = macroRW
+
+  implicit def rw_GoProjectLayout: RW[GoProjectLayout] = macroRW
+
+  implicit def rw_CSharpProjectLayout: RW[CSharpProjectLayout] = macroRW
+
+  implicit def `rwBuildManifest.Common`: RW[BuildManifest.Common] = macroRW
+
+  implicit def `rwBuildManifest.License`: RW[BuildManifest.License] = macroRW
+
+  implicit def `rwBuildManifest.MFUrl`: RW[BuildManifest.MFUrl] = macroRW
+
+  implicit def rwProjectVersion: RW[ProjectVersion] = macroRW
 
   implicit def rw214: RW[ScalaBuildManifest] = macroRW
+  implicit def rw_SbtOptions: RW[SbtOptions] = macroRW
+  implicit def rw_YarnOptions: RW[YarnOptions] = macroRW
+  implicit def rw_GoRepositoryOptions: RW[GoRepositoryOptions] = macroRW
+  implicit def rw_NugetOptions: RW[NugetOptions] = macroRW
 
   implicit def rw215: RW[TypeScriptBuildManifest] = macroRW
 

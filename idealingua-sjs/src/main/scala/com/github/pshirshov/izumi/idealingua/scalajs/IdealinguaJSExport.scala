@@ -33,10 +33,10 @@ object IdealinguaJSExport extends IdealinguaJSFacade {
     }
 
     val manifest = language match {
-      case IDLLanguage.Scala => readManifest(rawManifest, ScalaBuildManifest.default)
-      case IDLLanguage.Go => readManifest(rawManifest, GoLangBuildManifest.default)
-      case IDLLanguage.Typescript => readManifest(rawManifest, TypeScriptBuildManifest.default)
-      case IDLLanguage.CSharp => readManifest(rawManifest, CSharpBuildManifest.default)
+      case IDLLanguage.Scala => readManifest(rawManifest, ScalaBuildManifest.example)
+      case IDLLanguage.Go => readManifest(rawManifest, GoLangBuildManifest.example)
+      case IDLLanguage.Typescript => readManifest(rawManifest, TypeScriptBuildManifest.example)
+      case IDLLanguage.CSharp => readManifest(rawManifest, CSharpBuildManifest.example)
     }
 
     val translatorExtensions: Seq[TranslatorExtension] = getExt(language, extensions.toList)

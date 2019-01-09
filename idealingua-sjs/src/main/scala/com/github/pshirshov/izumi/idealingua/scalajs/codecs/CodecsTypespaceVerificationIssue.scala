@@ -18,6 +18,10 @@ trait CodecsTypespaceVerificationIssue extends Types {
 
   implicit def rwTypespaceWarning_Message: RW[TypespaceWarning.Message] = macroRW
 
+  implicit def rwTypespaceWarning_ReservedKeywordField: RW[TypespaceWarning.ReservedKeywordField] = macroRW
+
+  implicit def rwTypespaceWarning_ReservedKeywordName: RW[TypespaceWarning.ReservedKeywordName] = macroRW
+
   implicit def rwTypespaceWarning_DomainInvolvedIntoCyclicImports: RW[TypespaceWarning.DomainInvolvedIntoCyclicImports] = macroRW
 
 
